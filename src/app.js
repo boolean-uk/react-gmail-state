@@ -5,30 +5,18 @@ import initialEmails from './data/emails'
 import './styles/app.css'
 
 function App() {
+  // creating state for emails
   const [emails, setEmail] = useState(initialEmails)
-  // const [starred, setStarred] = useState()
-  // const addEmail = (event) => {
-  //   event.preventDefault()
-  //   // console.log("event", event)
-  //   console.log(initialEmails)
-  //   const newMail = event.target[0]
-  //   // const country = event.target[1]
-  //   // const country = event.t
-  //   // TODO update cities
-  //   setEmail([
-  //     ...emails,
-  //     { name: newMail.value, id: id.value, starred: false },
-  //   ])
-  // }
-  const toggleStar = (event) => {
-    console.log("target", event)
-    const newStar = emails.map(email => email === event ? {...email, starred: !email.starred} : email)
-    setEmail(newStar)
+  //toggleStar function
+  const toggleStar = (value) => {
+    console.log("value", value)
+    const starredOrNot = emails.map(email => email === value ? {...email, starred: !email.starred} : email)
+    setEmail(starredOrNot)
   }
-  const toggleRead = (event) => {
-    console.log("read", event)
-    const newRead = emails.map(email => email === email ? {...email, read: true} : email)
-    setEmail(newRead)
+  const toggleRead = (email) => {
+    console.log("read", email)
+    const readOrNot = emails.map(email => email === email ? {...email, read: !email.read} : email)
+    setEmail(readOrNot)
   }
   // Use initialEmails for state
 
