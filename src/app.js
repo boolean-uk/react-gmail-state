@@ -1,9 +1,10 @@
+import { useState } from "react";
+
 import React from "react";
 import Header from "./components/header";
 
 import initialEmails from "./data/emails";
 
-import { useState } from "react";
 import "./styles/app.css";
 
 function App() {
@@ -58,11 +59,17 @@ function App() {
               <div className="star">
                 <input className="star-checkbox" type="checkbox" />
               </div>
-              <div className="sender" key={email.sender}></div>
-              <div className="title" key={email.title}></div>
+              <div className="sender" >
+              {email.sender}
+              </div>
+              <div className="title" >
+              {email.title}
+              </div>
+
             </li>
           );
-        })}
+        })
+        }
       </main>
     </div>
   );
