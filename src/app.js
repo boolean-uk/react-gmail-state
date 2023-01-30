@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import Header from './components/header'
 
 import initialEmails from './data/emails'
@@ -6,6 +8,8 @@ import './styles/app.css'
 
 function App() {
   // Use initialEmails for state
+  const [emails, setEmails] = useState(initialEmails)
+
   console.log(initialEmails)
 
   return (
@@ -18,14 +22,14 @@ function App() {
             // onClick={() => {}}
           >
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{emails.length}</span>
           </li>
           <li
             className="item"
             // onClick={() => {}}
           >
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count"></span>
           </li>
 
           <li className="item toggle">
@@ -39,7 +43,24 @@ function App() {
           </li>
         </ul>
       </nav>
-      <main className="emails">{/* Render a list of emails here */}</main>
+      <main className="emails">{ emails.map((email) =>
+        <li className="email">
+        <div className="select">
+        <input
+          className="select-checkbox"
+          type="checkbox"/>
+        </div>
+        <div className="star">
+        <input
+          className="star-checkbox"
+          type="checkbox"
+        />
+        </div>
+        <div className="sender">{email.sender}</div>
+        <div className="title">{email.title}</div>
+      </li>
+      )}
+      </main>
     </div>
   )
 }
