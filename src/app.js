@@ -6,14 +6,12 @@ import "./styles/app.css";
 
 function App() {
 	// Use initialEmails for state
-	console.log(initialEmails);
 	const [emails, setEmails] = useState(initialEmails);
 	const [hideRead, setHideRead] = useState(false);
 
 	let starredAmount = 0;
 
 	const toggleRead = (email) => {
-		console.log(email);
 		const read = emails.map((currentEmail) => {
 			if (currentEmail === email) {
 				const emailCopy = { ...email, read: !email.read };
@@ -26,6 +24,7 @@ function App() {
 	};
 
 	const toggleStarred = (email) => {
+		// Not actually working since it's not re-rendering, but it was fun so left it
 		starredAmount++;
 		console.log(email, starredAmount);
 	};
@@ -34,6 +33,7 @@ function App() {
 		setHideRead(!hideRead);
 	};
 
+	// eslint-disable-next-line array-callback-return
 	const unreadEmails = emails.filter((email) => {
 		if (email.read === false) return email;
 	});
