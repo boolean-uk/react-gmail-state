@@ -29,66 +29,42 @@ function App() {
     }
     return counter
   })
+  const [currentTab, setCurrentTab] = useState('inbox')
 
-  const toggleRead = (event) => {
-    //Find id of Email
-    let myEmailIndex
-    for (let i = 0; i < emailList.length; i++) {
-      if (emailList[i].id === parseInt(event.target.id)) {
-        myEmailIndex = i
-        break
-      }
-    }
+  const toggleRead = (myEmail) => {
     //If Email got Read   
-    if (event.target.checked) {
+    if (!myEmail.read) {
       updateUnreadCounter(unreadCounter - 1)
       updateEmailList(() => {
-        emailList[myEmailIndex].read = true
+        myEmail.read = true
         return emailList
       })
     } else {
       updateUnreadCounter(unreadCounter + 1)
-      emailList[myEmailIndex].read = false
+      myEmail.read = false
       return emailList
     }
   }
 
-  const toggleStar = (event) => {
-    //Find id of Email
-    let myEmailIndex
-    for (let i = 0; i < emailList.length; i++) {
-      if (emailList[i].id === parseInt(event.target.id)) {
-        myEmailIndex = i
-        break
-      }
-    }
+  const toggleStar = (myEmail) => {
     //If Email got Starred
-    if (event.target.checked) {
+    if (!myEmail.starred) {
       updateStarCounter(starCounter + 1)
       updateEmailList(() => {
-        emailList[myEmailIndex].starred = true
+        myEmail.starred = true
         return emailList
       })
     } else {
       updateStarCounter(starCounter - 1)
       updateEmailList(() => {
-        emailList[myEmailIndex].starred = false
+        myEmail.starred = false
         return emailList
       })
     }
   }
 
-  const filterReadEmails = () => {
-    const unreadEmails = []
-    emailList.map((myEmail) => {
-      if (!myEmail.read) {
-        unreadEmails.push(myEmail)
-      }
-    })
-    updateEmailList(unreadEmails)
-  }
-
   const displayInbox = () => {
+    setCurrentTab('inbox')
     updateEmailList(initialEmails)
   }
 
@@ -99,7 +75,26 @@ function App() {
         starEmails.push(myEmail)
       }
     })
+    setCurrentTab('star')
     updateEmailList(starEmails)
+  }
+
+  const filterReadEmails = (event) => {
+    if (event.target.checked) {
+      const unreadEmails = []
+      emailList.map((myEmail) => {
+        if (!myEmail.read) {
+          unreadEmails.push(myEmail)
+        }
+      })
+      updateEmailList(unreadEmails)
+    } else {
+      if (currentTab === 'inbox'){
+        displayInbox()
+      } else if (currentTab === 'star') {
+        getStarEmails()
+      }
+    }
   }
 
   return (
@@ -127,7 +122,6 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
               onChange={filterReadEmails}
             />
           </li>
@@ -143,10 +137,10 @@ function App() {
             return(
               <li className = {isRead} key={myEmail.id}>
                 <div className='select'>
-                  <input id={myEmail.id} className="select-checkbox" type="checkbox" defaultChecked={myEmail.read} onChange={toggleRead}></input>
+                  <input className="select-checkbox" type="checkbox" defaultChecked={myEmail.read} onChange={() => toggleRead(myEmail)}></input>
                 </div>
                 <div className='star'>
-                  <input id={myEmail.id} className='star-checkbox' type="checkbox" defaultChecked={myEmail.starred} onChange={toggleStar}></input>
+                  <input className='star-checkbox' type="checkbox" defaultChecked={myEmail.starred} onChange={() => toggleStar(myEmail)}></input>
                 </div>
                 <div className='sender'>{myEmail.sender}</div>
                 <div className='title'>{myEmail.title}</div>
