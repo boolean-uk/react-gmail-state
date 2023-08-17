@@ -30,6 +30,37 @@ function App() {
     return counter
   })
 
+  const toggleRead = (event) => {
+    //Find id of Email
+    let myEmailIndex
+    for (let i = 0; i < emailList.length; i++) {
+      if (emailList[i].id === parseInt(event.target.id)) {
+        myEmailIndex = i
+        break
+      }
+    }
+    //If Email got Read
+    if (event.target.checked) {
+      updateUnreadCounter(unreadCounter - 1)
+      updateEmailList(() => {
+        emailList[myEmailIndex].read = true
+        return emailList
+      })
+    } else {
+      updateUnreadCounter(unreadCounter + 1)
+      emailList[myEmailIndex].read = false
+      return emailList
+    }
+  }
+
+  const toggleStar = (event) => {
+    if (event.target.checked) {
+      updateStarCounter(starCounter + 1)
+    } else {
+      updateStarCounter(starCounter - 1)
+    }
+  }
+
   return (
     <div className="app">
       <Header />
@@ -71,10 +102,10 @@ function App() {
             return(
               <li className = {isRead}>
                 <div className='select'>
-                  <input className="select-checkbox" type="checkbox" defaultChecked={myEmail.read}></input>
+                  <input id={myEmail.id} className="select-checkbox" type="checkbox" defaultChecked={myEmail.read} onClick={toggleRead}></input>
                 </div>
                 <div className='star'>
-                  <input className='star-checkbox' type="checkbox" defaultChecked={myEmail.starred}></input>
+                  <input className='star-checkbox' type="checkbox" defaultChecked={myEmail.starred} onClick={toggleStar}></input>
                 </div>
                 <div className='sender'>{myEmail.sender}</div>
                 <div className='title'>{myEmail.title}</div>
