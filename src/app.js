@@ -10,8 +10,12 @@ function App() {
   const [emailsList, setEmailsList] = useState(initialEmails)
 
   const toggleRead = (emailId) => {
-    // TODO: Create a toggleRead function that updates the target email's read property in state, when a user clicks on the checkbox
-    console.log(`emailId: ${emailId}`)
+    // NOTE: update state of emails array as presented here: https://stackoverflow.com/questions/72108129/react-update-array-of-object-with-checked-field-in-state
+
+    const newEmailsList = emailsList.map(email =>
+      email.id === emailId ? {...email, read: !(email.read)} : email
+    )
+    setEmailsList(newEmailsList)
   }
 
   const emailItems = emailsList.map(email => 
