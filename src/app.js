@@ -6,12 +6,10 @@ import initialEmails from './data/emails'
 import './styles/app.css'
 
 function App() {
-  // Use initialEmails for state
   const [emailsList, setEmailsList] = useState(initialEmails)
+  const [hideRead, setHideRead] = useState(false)
 
   const toggleRead = (emailId) => {
-    // update the target email's read property in state, when a user clicks on the checkbox
-
     // NOTE: update state of emailsList as presented here: https://stackoverflow.com/questions/72108129/react-update-array-of-object-with-checked-field-in-state
 
     const newEmailsList = emailsList.map(email =>
@@ -21,7 +19,6 @@ function App() {
   }
 
   const toggleStar = (emailId) => {
-    // update the target email's starred property in state, when a user clicks on the star
     // NOTE: update state of emails array as presented here: https://stackoverflow.com/questions/72108129/react-update-array-of-object-with-checked-field-in-state
 
     const newEmailsList = emailsList.map(email =>
@@ -30,30 +27,40 @@ function App() {
     setEmailsList(newEmailsList)
   }
 
-  const emailItems = emailsList.map(email => 
-    <li className={`email ${email.read ? "read" : "unread"}`} key={email.id}>
-      <div className="select">
-        <input
-          className="select-checkbox"
-          type="checkbox"
-          onChange={() => {toggleRead(email.id)}}
-        />
-      </div>
-      <div className="star">
-        <input
-          className="star-checkbox"
-          type="checkbox"
-          onChange={() => {toggleStar(email.id)}}
-        />
-      </div>
-      <div className="sender">
-        {email.sender}
-      </div>
-      <div className="title">
-        {email.title}
-      </div>
-    </li>
-  )
+  const hideReadEmails = () => setHideRead(!hideRead)
+
+  const emailItems = emailsList.map(email => {
+    // render email if either Hide Read is unchecked, or Hide Read is checked and email.read is false
+    if ((!hideRead) || (!email.read)) {
+      return (
+        <li className={`email ${email.read ? "read" : "unread"}`} key={email.id}>
+          <div className="select">
+            <input
+              className="select-checkbox"
+              type="checkbox"
+              onChange={() => {toggleRead(email.id)}}
+            />
+          </div>
+          <div className="star">
+            <input
+              className="star-checkbox"
+              type="checkbox"
+              checked={email.starred}
+              onChange={() => {toggleStar(email.id)}}
+            />
+          </div>
+          <div className="sender">
+            {email.sender}
+          </div>
+          <div className="title">
+            {email.title}
+          </div>
+        </li>
+      )
+    } else {
+      return null
+    }
+  })
 
   return (
     <div className="app">
@@ -80,8 +87,8 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-              // onChange={() => {}}
+              checked={hideRead}
+              onChange={hideReadEmails}
             />
           </li>
         </ul>
