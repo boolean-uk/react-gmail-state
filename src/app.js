@@ -41,6 +41,15 @@ function App() {
     })
     setEmails(updatedEmail)
   }
+  //create new use state for hide read to check hide read is checked or not
+  const [hideRead, setHideRead] = useState(false)
+  // function for filtering emails beofre they are rendered
+  function getReadEmails(email) {
+    if (hideRead) {
+      return email.filter(email => !email.read)
+    }
+    return email
+  }
 
   return (
     <div className="app">
@@ -67,14 +76,15 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-              // onChange={() => {}}
+              checked={hideRead}
+              onChange={() => setHideRead(!hideRead)}
+              // did the change
             />
           </li>
         </ul>
       </nav>
       <main className="emails">{
-        emails.map( email => 
+        getReadEmails(emails).map( email => 
           (
             //is it oke to use ternary operation on this or do you prefer I write the if else?
           <li key={email.id} className={`email ${email.read ? 'read' : 'unread'}`}>
