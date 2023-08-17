@@ -8,6 +8,7 @@ import './styles/app.css'
 function App() {
   const [emailsList, setEmailsList] = useState(initialEmails)
   const [hideRead, setHideRead] = useState(false)
+  const [starredOnly, setStarredOnly] = useState(false)
 
   const toggleRead = (emailId) => {
     // NOTE: update state of emailsList as presented here: https://stackoverflow.com/questions/72108129/react-update-array-of-object-with-checked-field-in-state
@@ -27,11 +28,35 @@ function App() {
     setEmailsList(newEmailsList)
   }
 
-  const hideReadEmails = () => setHideRead(!hideRead)
+  const toggleHideRead = () => setHideRead(!hideRead)
 
-  const emailItems = emailsList.map(email => {
+  const toggleStarredOnly = () => setStarredOnly(!starredOnly)
+
+  // const displayEmail = (isRead, isStarred) => {
+  //   /** render email if:
+  //    * either Hide Read is unchecked, or Hide Read is checked and email.read is false
+  //    * and
+  //    * either Starred is not active or Starred is active and email.starred is true
+  //    */
+  //   const display = ((!hideRead) || !isRead) &&
+  //                   ((!starredOnly) || isStarred)
+  //   return display
+  // }
+
+  const getEmailsToDisplay = () => {
+    let emailsToDisplay = emailsList
+    if (hideRead) {
+      emailsToDisplay = emailsToDisplay.filter(email => !email.read)
+    }
+    if (starredOnly) {
+      emailsToDisplay = emailsToDisplay.filter(email => email.starred)
+    }
+    return emailsToDisplay
+  }
+
+  const emailItems = getEmailsToDisplay().map(email => {
     // render email if either Hide Read is unchecked, or Hide Read is checked and email.read is false
-    if ((!hideRead) || (!email.read)) {
+    // if (displayEmail(email.read, email.starred)) {
       return (
         <li className={`email ${email.read ? "read" : "unread"}`} key={email.id}>
           <div className="select">
@@ -57,9 +82,9 @@ function App() {
           </div>
         </li>
       )
-    } else {
-      return null
-    }
+    // } else {
+    //   return null
+    // }
   })
 
   return (
@@ -68,18 +93,18 @@ function App() {
       <nav className="left-menu">
         <ul className="inbox-list">
           <li
-            className="item active"
-            // onClick={() => {}}
+            className={`item ${!starredOnly ? "active" : ""}`}
+            onClick={toggleStarredOnly}
           >
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{emailsList.length}</span>
           </li>
           <li
-            className="item"
-            // onClick={() => {}}
+            className={`item ${starredOnly ? "active" : ""}`}
+            onClick={toggleStarredOnly}
           >
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count">{emailsList.filter(email => email.starred).length}</span>
           </li>
 
           <li className="item toggle">
@@ -88,7 +113,7 @@ function App() {
               id="hide-read"
               type="checkbox"
               checked={hideRead}
-              onChange={hideReadEmails}
+              onChange={toggleHideRead}
             />
           </li>
         </ul>
