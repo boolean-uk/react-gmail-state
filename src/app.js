@@ -7,7 +7,7 @@ import './styles/app.css'
 
 function App() {
   // Use initialEmails for state
-  const [emails] = useState(initialEmails)
+  const [emails, setEmails] = useState(initialEmails)
   // count unread emails
   let unreadCounter = 0
   let starredCounter = 0
@@ -16,10 +16,30 @@ function App() {
       if (!emails[index].read) {
           unreadCounter++
       }
-  
+  //count starred emails
       if (emails[index].starred) {
           starredCounter++
       }
+  }
+  //create toggleRead
+  const toggleRead = (id) => {
+    const updatedEmail = emails.map(email => {
+        if (email.id === id) {
+            return { ...email, read: !email.read }
+        }
+        return email
+    })
+    setEmails(updatedEmail)
+  }
+  //create toggleStar
+  const toggleStar = (id) => {
+    const updatedEmail = emails.map(email => {
+      if (email.id === id) {
+        return { ...email, starred: !email.starred}
+      }
+      return email
+    })
+    setEmails(updatedEmail)
   }
 
   return (
@@ -59,10 +79,11 @@ function App() {
             //is it oke to use ternary operation on this or do you prefer I write the if else?
           <li key={email.id} className={`email ${email.read ? 'read' : 'unread'}`}>
             <div className="select">
-              <input className="select-checkbox" type="checkbox"/>
+              <input className="select-checkbox" type="checkbox" checked={email.read} onClick={() => toggleRead(email.id)}/>
               </div>
               <div className="star">
-                <input className="star-checkbox" type="checkbox" checked ={email.starred}/>
+                <input className="star-checkbox" type="checkbox" checked ={email.starred} onChange={() => toggleStar(email.id)}/>
+
                 </div>
                 <div className="sender">{email.sender}</div>
                 <div className="title">{email.title}</div>
