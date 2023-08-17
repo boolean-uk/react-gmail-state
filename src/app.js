@@ -10,10 +10,22 @@ function App() {
   const [emailsList, setEmailsList] = useState(initialEmails)
 
   const toggleRead = (emailId) => {
-    // NOTE: update state of emails array as presented here: https://stackoverflow.com/questions/72108129/react-update-array-of-object-with-checked-field-in-state
+    // update the target email's read property in state, when a user clicks on the checkbox
+
+    // NOTE: update state of emailsList as presented here: https://stackoverflow.com/questions/72108129/react-update-array-of-object-with-checked-field-in-state
 
     const newEmailsList = emailsList.map(email =>
       email.id === emailId ? {...email, read: !(email.read)} : email
+    )
+    setEmailsList(newEmailsList)
+  }
+
+  const toggleStar = (emailId) => {
+    // update the target email's starred property in state, when a user clicks on the star
+    // NOTE: update state of emails array as presented here: https://stackoverflow.com/questions/72108129/react-update-array-of-object-with-checked-field-in-state
+
+    const newEmailsList = emailsList.map(email =>
+      email.id === emailId ? {...email, starred: !(email.starred)} : email
     )
     setEmailsList(newEmailsList)
   }
@@ -28,7 +40,11 @@ function App() {
         />
       </div>
       <div className="star">
-        <input className="star-checkbox" type="checkbox"/>
+        <input
+          className="star-checkbox"
+          type="checkbox"
+          onChange={() => {toggleStar(email.id)}}
+        />
       </div>
       <div className="sender">
         {email.sender}
