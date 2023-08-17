@@ -1,10 +1,8 @@
 .app > .header {
   grid-area: header;
-
   display: grid;
   grid-template-columns: 180px 1fr;
-
-  border-bottom: solid 1px #00000020;
+  background-color: rgb(240, 240, 240);
 }
 
 .app > .header > .left-menu {
@@ -12,6 +10,7 @@
   grid-auto-flow: column;
   align-items: center;
   justify-content: left;
+  background-color: rgb(240, 240, 240);
 }
 
 .app > .header > .left-menu .menu-icon {
@@ -22,13 +21,16 @@
 
 .app > .header > .search {
   display: grid;
-  padding: 6px;
+  padding: 0px;
+  width: 1700px;
+  margin-top: 11px;
+  margin-bottom: 11px;
 }
 
 .app > .header > .search .search-bar {
   border: none;
   border-radius: 5px;
-  background-color: rgb(240, 240, 240);
+  background-color: "white";
   padding: 0 10px;
-  font-size: 1rem;
+  font-size: x-small;
 }

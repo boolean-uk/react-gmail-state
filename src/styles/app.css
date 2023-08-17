@@ -1,6 +1,5 @@
 .app {
   height: 100vh;
-
   display: grid;
   grid-template:
     'header header' 50px
@@ -10,7 +9,7 @@
 
 .app > .emails {
   grid-area: emails;
-  padding: 10px 0;
+  padding: 0px 0;
 }
 
 .app > .emails > ul {
@@ -21,7 +20,8 @@
 .app > .left-menu {
   grid-area: left-menu;
   padding: 10px;
-  padding-left: 0;
+  padding-left: 10px;
+  background-color: rgb(240, 240, 240);
 }
 
 .app > .left-menu .inbox-list {
@@ -35,17 +35,16 @@
   grid-auto-flow: column;
   justify-content: space-between;
   align-items: center;
-
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
 }
 
 .app > .left-menu .inbox-list .item.active {
-  background-color: #ff000050;
+  background-color: black;
+  color: white;
 }
 
 .app > .left-menu .inbox-list .item.toggle {
   background-color: transparent;
+  accent-color: black;
 }
 
 .email {
@@ -54,7 +53,6 @@
   padding: 10px;
   background-color: white;
   font-size: 0.9rem;
-
   border-bottom: solid 1px #00000020;
 }
 
@@ -64,15 +62,17 @@
 
 .email:hover {
   box-shadow: -1px 1px 2px 0 #00000040;
+  background-color: rgb(240, 240, 240);
   z-index: 1;
 }
 
 .email.read {
-  background-color: rgb(240, 240, 240);
+  accent-color: black;
 }
 
 .email.unread {
   font-weight: 600;
+  accent-color: black;
 }
 
 .email .title {
@@ -95,17 +95,20 @@
 .email .star-checkbox:checked::before,
 .email .star-checkbox::before {
   content: '';
-  background-size: cover;
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   position: absolute;
-  top: -3px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transition: transform 0.3s ease-in-out;
 }
 
 .email .star-checkbox::before {
-  background-image: url(https://www.gstatic.com/images/icons/material/system/2x/star_border_black_20dp.png);
+  background-image: url(/public/star.png);
 }
 
 .email .star-checkbox:checked::before {
-  background-image: url(https://www.gstatic.com/images/icons/material/system/2x/star_googyellow500_20dp.png);
+  background-image: url(/public/star\ filled.png);
 }
