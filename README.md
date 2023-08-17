@@ -7,6 +7,7 @@ You'll use state to render a list of emails like in Gmail. Rendering lists is a 
 You'll use state's `set` function to modify data and render the new changes.
 
 ![Image](image.png)
+
 ## Setup
 
 1. Fork this repository
@@ -30,6 +31,7 @@ You'll use state's `set` function to modify data and render the new changes.
 - Remember to use the `key` attribute when rendering lists in react
 
 ## Extension 1
+
 - Create a `toggleRead` function that updates the target email's **read** property in state, when a user clicks on the checkbox
 - Create a `toggleStar` function that updates the target email's **starred** property in state, when a user clicks on the star
 - Make sure these changes take effect in the UI
