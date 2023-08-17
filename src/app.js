@@ -41,14 +41,29 @@ function App() {
     })
     setEmails(updatedEmail)
   }
+  //-------------------Not used anymore because getFiltered is better-----------
   //create new use state for hide read to check hide read is checked or not
   const [hideRead, setHideRead] = useState(false)
-  // function for filtering emails beofre they are rendered
+  // function for filtering emails before they are rendered
+
   function getReadEmails(email) {
     if (hideRead) {
       return email.filter(email => !email.read)
     }
     return email
+  }
+
+  // new use state for switching tabs
+  const [activeTab, setTab] = useState('Inbox')
+  // function for switching tabs
+  function getFiltered(list) {
+    if (hideRead) {
+      list = list.filter(email => !email.read)
+    }
+    if (activeTab === 'starred') {
+      list = list.filter(email => email.starred)
+    }
+    return list
   }
 
   return (
@@ -57,15 +72,15 @@ function App() {
       <nav className="left-menu">
         <ul className="inbox-list">
           <li
-            className="item active"
-            // onClick={() => {}}
+            className= {activeTab === 'inbox' ? "item active" : "item"} onClick={() => setTab('inbox')}
+            // did the change
           >
             <span className="label">Inbox</span>
             <span className="count">{unreadCounter}</span>
           </li>
           <li
-            className="item"
-            // onClick={() => {}}
+            className={activeTab === 'starred' ? "item active" : "item" } onClick={() => setTab('starred')}
+            // did the change}
           >
             <span className="label">Starred</span>
             <span className="count">{starredCounter}</span>
@@ -84,7 +99,7 @@ function App() {
         </ul>
       </nav>
       <main className="emails">{
-        getReadEmails(emails).map( email => 
+        getFiltered(emails).map( email => 
           (
             //is it oke to use ternary operation on this or do you prefer I write the if else?
           <li key={email.id} className={`email ${email.read ? 'read' : 'unread'}`}>
