@@ -46,12 +46,6 @@ function App() {
   const [hideRead, setHideRead] = useState(false)
   // function for filtering emails before they are rendered
 
-  function getReadEmails(email) {
-    if (hideRead) {
-      return email.filter(email => !email.read)
-    }
-    return email
-  }
 
   // new use state for switching tabs
   const [activeTab, setTab] = useState('Inbox')
@@ -87,7 +81,7 @@ function App() {
           </li>
 
           <li className="item toggle">
-            <label for="hide-read">Hide read</label>
+            <label for="hide-read">Evanesco</label>
             <input
               id="hide-read"
               type="checkbox"
