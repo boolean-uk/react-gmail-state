@@ -6,8 +6,7 @@ import { useEffect, useState } from 'react'
 import './styles/app.css'
 
 function App() {
-  // Use initialEmails for state
-
+  
   const [emails, setEmails] = useState(initialEmails)
   const [totalEmails, setTotalEmails] = useState([])
   const [hideReadEmails, setHideReadEmails] = useState(false);
