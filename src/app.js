@@ -35,19 +35,18 @@ function App() {
       return emails.filter(email => !email.read);
   }
 
-  const reads = totalEmails.filter(email => email.read === true)
   const unreads = totalEmails.filter(email => email.read === false)
   const stars = totalEmails.filter(email => email.starred === true)
 
-  const showReadEmails = () => {
-    setTotalEmails(reads)
+  const showUnreadEmails = () => {
+    setTotalEmails(unreads)
   }
 
   const showStarredEmails = () => {
     setTotalEmails(stars)
   }
 
-  const showUnreadEmails = () => {
+  const hidesEmails = () => {
     if (hideReadEmails) {
       setTotalEmails(emails);
     } else {
@@ -63,7 +62,7 @@ function App() {
         <ul className="inbox-list">
           <li
             className="item active"
-            onClick={showReadEmails}
+            onClick={showUnreadEmails}
           >
             <span className="label">Inbox</span>
             <span className="count">{unreads.length}</span>
@@ -82,7 +81,7 @@ function App() {
               id="hide-read"
               type="checkbox"
               checked={hideReadEmails}
-              onChange={showUnreadEmails}
+              onChange={hidesEmails}
             />
           </li>
         </ul>
