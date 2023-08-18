@@ -36,6 +36,7 @@ function App() {
   }
 
   const reads = totalEmails.filter(email => email.read === true)
+  const unreads = totalEmails.filter(email => email.read === false)
   const stars = totalEmails.filter(email => email.starred === true)
 
   const showReadEmails = () => {
@@ -65,7 +66,7 @@ function App() {
             onClick={showReadEmails}
           >
             <span className="label">Inbox</span>
-            <span className="count">{reads.length}</span>
+            <span className="count">{unreads.length}</span>
           </li>
           <li
             className="item"
