@@ -78,7 +78,7 @@ function App() {
                         <span className="count">
 
                           {/* this would change to emails.length once I refactor my code */}
-                          {initialEmails} 
+                          {initialEmails.length} 
 
                         </span>
                     </li>
