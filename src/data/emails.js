@@ -3,15 +3,15 @@ export default [
     id: 1,
     sender: `Zoom`,
     title: `Cloud Recording - Nicolas Marcora's Personal Meeting Room is now available`,
-    starred: false,
+    starred: true,
     read: true
   },
   {
     id: 2,
     sender: `Zoom`,
     title: `Sean Davison has joined your Personal Meeting Room`,
-    starred: false,
-    read: false
+    starred: true,
+    read: true
   },
   {
     id: 3,
@@ -31,7 +31,7 @@ export default [
     id: 5,
     sender: `Patrick`,
     title: `Updated invitation: Coding chat with Nico`,
-    starred: true,
+    starred: false,
     read: false
   }
 ]
