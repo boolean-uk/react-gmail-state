@@ -23,7 +23,8 @@ function App() {
             <input
               className="star-checkbox"
               type="checkbox"
-            />
+              checked={email.starred}
+              onChange={() => toggleStarred(email)} />
           </div>
           <div className="sender">
             {email.sender}
@@ -47,9 +48,21 @@ function App() {
         return eachEmail
       }
     })
-    console.log(updatedEmails)
     setEmails(updatedEmails)
+  }
 
+  const toggleStarred = (email) => {
+    const updatedEmails = emails.map((eachEmail) => {
+      if (eachEmail === email) {
+        return {
+          ...eachEmail,
+          starred: !eachEmail.starred
+        }
+      } else {
+        return eachEmail
+      }
+    })
+    setEmails(updatedEmails)
   }
 
   return (
