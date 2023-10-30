@@ -1,4 +1,6 @@
-export default [
+
+
+const Emails = [
   {
     id: 1,
     sender: `Zoom`,
@@ -35,3 +37,5 @@ export default [
     read: false
   }
 ]
+
+export default Emails
