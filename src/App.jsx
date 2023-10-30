@@ -37,6 +37,17 @@ function App() {
     )
   })
 
+  // const hideAndShowRead = (emails, initialEmails, showAllEmails, setEmails) => {
+  //   const updatedEmails = showAllEmails ? initialEmails : emails.filter(email => !email.read);
+  //   setEmails(updatedEmails)
+  // };
+
+  const hideAndShowRead = (emails, initialEmails, showAllEmails) => {
+    const updatedEmails = showAllEmails ? initialEmails : emails.filter(email => !email.read);
+    setEmails(updatedEmails)
+    return updatedEmails
+  }
+
   const toggleRead = (email) => {
     const updatedEmails = emails.map((eachEmail) => {
       if (eachEmail === email) {
@@ -90,7 +101,8 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              onChange={() => {}}
+              checked={emails.read}
+              onChange={() => {hideAndShowRead(emails, initialEmails, emails.read, setEmails)}}
             />
           </li>
         </ul>
