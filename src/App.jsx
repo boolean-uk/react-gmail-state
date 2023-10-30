@@ -11,8 +11,9 @@ function App() {
 
   const [emails, setEmails] = useState(initialEmails)
 
+
   const starred = () => emails.filter(email => email.starred) 
-  const readEmail = () => emails.filter(email => email.readEmail)
+  const read = () => emails.filter(email => email.read)
 
   return (
     <div className="app">
@@ -24,7 +25,7 @@ function App() {
           // onClick={() => {}}
           >
             <span className="label">Inbox</span>
-            <span className="count">{readEmail().length}</span>
+            <span className="count">{read().length}</span>
           </li>
           <li
             className="item"
@@ -35,7 +36,7 @@ function App() {
           </li>
 
           <li className="item toggle">
-            <label for="hide-read">Hide read</label>
+            <label for = "hide-read">Hide read</label>
             <input
               id="hide-read"
               type="checkbox"
@@ -46,29 +47,32 @@ function App() {
         </ul>
       </nav>
 
+   
       <main className="emails">
-        {emails.map((email) => (<li
-          key={email.id}
-          className={`email ${email.read ? "read" : "unread"}`}
+        {emails.map((email) => (<li 
+        key={email.id}
+        className = {`email ${email.read ? "read" : "unread"}`}
         >
           <div className='select'>
             <input
-              className="select-checkbox"
-              type="checkbox"
+            className="select-checkbox"
+            type="checkbox"
               checked={email.read}
-            />
+              />
           </div>
           <div className='star'>
-            <input
-              className="star-checkbox"
-              type="checkbox"
+          <input
+            className="star-checkbox"
+            type="checkbox"
               checked={email.starred}
             />
           </div>
           <div className='sender'>{email.sender}</div>
           <div className='title'>{email.title}</div>
-        </li>))}
-        </main>
+
+        </li>))
+
+      }</main>
     </div>
   )
 }
