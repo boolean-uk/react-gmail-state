@@ -8,6 +8,8 @@ import './styles/App.css'
 function App() {
 
   const [emails, setEmails] = useState(initialEmails)
+  const [hideEmails, setHideEmails] = useState(false)
+
 
   const toggleStarred = (toggleStarredEmail) => {
     const updatedEmails = emails.map((mappedEmail) => {
@@ -42,9 +44,10 @@ function App() {
     setEmails(updatedEmails)
   }
 
-  const hideRead = emails ? emails.filter(email => email.read === true) : emails;
+  const unread = emails ? emails.filter(email => email.read === false) : emails;
+  console.log(unread)
   const emailsThatAreStarred = emails ? emails.filter(mail => mail.starred === true) : emails;
-  
+
 
 
   return (
@@ -54,26 +57,26 @@ function App() {
         <ul className="inbox-list">
           <li
             className="item active"
-          // onClick={() => {}}
+            onClick={() => { }}
           >
             <span className="label">Inbox</span>
             <span className="count">{emails.length}</span>
           </li>
           <li
             className="item"
-          // onClick={() => {}}
+            onClick={() => { }}
           >
             <span className="label">Starred</span>
             <span className="count">{emailsThatAreStarred.length}</span>
           </li>
 
           <li className="item toggle">
-            <label for="hide-read">Hide read</label>
+            <label htmlFor="hide-read">Hide read</label>
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-            // onChange={() => {}}
+              checked={hideEmails}
+              onChange={(e) => setHideEmails(e.target.checked)}
             />
           </li>
         </ul>
