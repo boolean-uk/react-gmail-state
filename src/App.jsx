@@ -5,23 +5,26 @@ import initialEmails from './data/emails'
 import './styles/App.css'
 
 function App() {
-  const [emails, setEmails] = useState(initialEmails)
-  console.log(emails)
+  const [emails, setEmails] = useState(initialEmails);
+  const [hideRead, setHideRead] = useState(false);
 
-  const isStarred= () => emails.filter(email => email.starred)
-  const isRead = () => emails.filter(email => email.read)
+  const isStarred = () => emails.filter(email => email.starred);
+  const isRead = () => emails.filter(email => email.read);
 
   const toggleRead = (email) => {
     email.read = !email.read
 
     setEmails([...emails])
-  }
+  };
 
   const toggleStar = (email) => {
     email.starred = !email.starred
 
     setEmails([...emails])
-  }
+  };
+
+  let filteredEmails = emails;
+  if (hideRead) filteredEmails = isRead();
 
   return (
     <div className="app">
@@ -48,21 +51,21 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-              // onChange={() => {}}
+              checked={hideRead}
+              onChange={(e) => setHideRead(e.target.checked)}
             />
           </li>
         </ul>
       </nav>
       <main className="emails">
-        <ul>{emails.map(email =>
-         <li className="email">
+        <ul>{filteredEmails.map(email =>
+         <li key={email.id} className="email">
           <div className="select">
           <input
           className="select-checkbox"
           type="checkbox"
           checked={email.read}
-          onChange={e => toggleRead(email)}
+          onChange={() => toggleRead(email)}
           />
           </div>
 
@@ -71,7 +74,7 @@ function App() {
           className="star-checkbox"
           type="checkbox"
           checked={email.starred}
-          onChange={e => toggleStar(email)}
+          onChange={() => toggleStar(email)}
           />
           </div>
 
