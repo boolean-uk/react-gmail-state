@@ -10,7 +10,7 @@ function App() {
 
   const Email = (item, index) => {
     return (
-      <li className="email" key={index}>
+      <li className={item.read ? "email read" : "email unread"} key={index}>
         <div className="select">
         <input
           className="select-checkbox"
@@ -20,6 +20,7 @@ function App() {
         <input
           className="star-checkbox"
           type="checkbox"
+          checked={item.starred}
         />
         </div>
         <div className="sender">{item.sender}</div>
