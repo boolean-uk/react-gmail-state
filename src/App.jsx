@@ -9,10 +9,49 @@ function App() {
 
   const [emails, setEmails] = useState(initialEmails)
   const [emailStarred, setEmailStarred] = useState()
+  const [emailRead, setEmailRead] = useState()
   
-  console.log(emails)
-  
-  const emailsStarred = emailStarred ? emails.filter(mail => mail.read === true) : emails;
+
+  const hideRead = emailRead ? emails.filter(email => email.read === true) : emails;
+  const emailsStarred = emailStarred ? emails.filter(mail => mail.starred === true) : emails;
+
+
+  const toggleStarred = (toggleStarredEmail) => {
+    console.log(toggleStarredEmail)
+    const updatedEmails = emails.map((mappedEmail) => {
+      if (mappedEmail === toggleStarredEmail) {
+        console.log(emails)
+        return {
+          ...toggleStarredEmail,
+          read: !toggleStarredEmail.read
+        }
+        
+      } else {
+        return mappedEmail
+      }
+    }
+    )
+    emailStarred(updatedEmails)
+  }
+
+
+  const toggleRead = (toggledEmail) => {
+    console.log(toggledEmail)
+    const updatedEmails = emails.map((mappedEmail) => {
+      if (mappedEmail === toggledEmail) {
+        console.log(emails)
+        return {
+          ...toggledEmail,
+          read: !toggledEmail.read
+        }
+        
+      } else {
+        return mappedEmail
+      }
+    }
+    )
+    setEmails(updatedEmails)
+  }
 
   return (
     <div className="app">
@@ -24,7 +63,7 @@ function App() {
           // onClick={() => {}}
           >
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{emails.length}</span>
           </li>
           <li
             className="item"
@@ -48,21 +87,23 @@ function App() {
       <main className="emails">
         {emails.map((email, index) => (
           <li key={index} className="email">
-          <div className="select">
-          <input
-            className="select-checkbox"
-            type="checkbox"/>
-          </div>
-          <div className="star">
-          <input
-            className="star-checkbox"
-            type="checkbox"
-          />
-          </div>
-          <div className="sender">{email.sender}</div>
-          <div className="title">{email.title}</div>
-        </li>
-      ))}
+            <div className="select">
+              <input
+                className="select-checkbox"
+                type="checkbox"
+                checked={email.read}
+                onChange={()=> toggleRead(email)} />
+            </div>
+            <div className="star">
+              <input
+                className="star-checkbox"
+                type="checkbox"
+              />
+            </div>
+            <div className="sender">{email.sender}</div>
+            <div className="title">{email.title}</div>
+          </li>
+        ))}
       </main>
     </div>
   )
