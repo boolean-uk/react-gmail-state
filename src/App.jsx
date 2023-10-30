@@ -8,9 +8,9 @@ function App() {
   // Use initialEmails for state
   const [renderedEmails, setEmails] = useState(initialEmails)
 
-  const Email = (item) => {
+  const Email = (item, index) => {
     return (
-      <li className="email">
+      <li className="email" key={index}>
         <div className="select">
         <input
           className="select-checkbox"
@@ -22,14 +22,16 @@ function App() {
           type="checkbox"
         />
         </div>
-        <div className="sender">{item.item.sender}</div>
-        <div className="title">{item.item.title}</div>
+        <div className="sender">{item.sender}</div>
+        <div className="title">{item.title}</div>
       </li>
     )
   }
 
   const renderEmails = () => {
-    return(renderedEmails.map((item, index) => <Email key={index} item={item}/>))
+    return(renderedEmails.map((item, index) => {
+      return Email(item, index)
+    }))
   }
 
   return (
