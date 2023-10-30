@@ -45,7 +45,6 @@ function App() {
   }
 
   const unread = emails ? emails.filter(email => email.read === false) : emails;
-  console.log(unread)
   const emailsThatAreStarred = emails ? emails.filter(mail => mail.starred === true) : emails;
 
 
@@ -76,7 +75,14 @@ function App() {
               id="hide-read"
               type="checkbox"
               checked={hideEmails}
-              onChange={(e) => setHideEmails(e.target.checked)}
+              onChange={(e) => {
+                setHideEmails(e.target.checked)
+                // if (hideEmails === true){
+                //   setEmails(unread)
+                // } else {
+                //   emails
+                // }
+              }}
             />
           </li>
         </ul>
