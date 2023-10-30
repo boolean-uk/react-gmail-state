@@ -6,7 +6,6 @@ import './styles/App.css'
 
 function App() {
   const [emails, setEmails] = useState(initialEmails)
-  // console.log(emails)
 
   // CREATE CLASSNAME DEPENDING ON READ/UNREAD STATE
   function readEmail(email) {
@@ -54,12 +53,9 @@ function toggleStarred(email) {
 // EXTENSION 2
 const [hideRead, setHideRead] = useState(false)
 
-const emailsToHide = hideRead ? emails.filter((email) => email.read === false) : emails
-
 // EXTENSION 3
 
 const [inbox, setInbox] = useState(true)
-const [starred, setStarred] = useState(false)
 
 const unreadEmails = emails.filter((email) => {
   if (email.read === false) {
@@ -73,21 +69,31 @@ const starredEmails = emails.filter((email) => {
   }
 })
 
+let currentEmailList
+
+if (inbox === false) {
+  currentEmailList = starredEmails
+}
+else if (hideRead) {
+  currentEmailList = unreadEmails
+}
+else currentEmailList = emails
+
   return (
     <div className="app">
       <Header />
       <nav className="left-menu">
         <ul className="inbox-list">
           <li
-            className="item active"
-            // onClick={() => {}}
+            className={inbox === true ? 'item active' : 'item'}
+            onClick={() => {setInbox(true)}}
           >
             <span className="label">Inbox</span>
             <span className="count">{unreadEmails.length}</span>
           </li>
           <li
-            className="item"
-            // onClick={() => {}}
+            className={inbox === false ? 'item active' : 'item'}
+            onClick={() => {setInbox(false)}}
           >
             <span className="label">Starred</span>
             <span className="count">{starredEmails.length}</span>
@@ -106,7 +112,7 @@ const starredEmails = emails.filter((email) => {
       </nav>
       <main className="emails">
         <ul>
-          {emailsToHide.map((email) => 
+          {currentEmailList.map((email) => 
           <li key={email.id} className={`email ${readEmail(email)}`}  >
             <div className="select">
               <input className="select-checkbox" type="checkbox" checked={email.read} onChange={() => toggleRead(email)}/>
