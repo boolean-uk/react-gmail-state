@@ -10,6 +10,9 @@ function App() {
   // Use initialEmails for state
   console.log(emails)
 
+
+const starredEmail = () => emails.filter(email =>email.starred)
+const readEmail = () => emails.filter(email => email.read)
   return (
     <div className="app">
       <Header />
@@ -20,14 +23,14 @@ function App() {
             // onClick={() => {}}
           >
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{readEmail().length}</span>
           </li>
           <li
             className="item"
             // onClick={() => {}}
           >
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count">{starredEmail().length}</span>
           </li>
 
           <li className="item toggle">
@@ -50,8 +53,8 @@ function App() {
             <div className="star">
               <input type="checkbox" className="star-checkbox" checked={email.starred}/>
             </div>
-            <div className="sender"></div>
-            <div className="title"></div>
+            <div className="sender">{email.sender}</div>
+            <div className="title">{email.title}</div>
           </li>
         )}
       </ul>
