@@ -4,7 +4,6 @@ import { useState } from 'react'
 
 import './styles/App.css'
 
-
 function App() {
   const [emails, setEmails] = useState(initialEmails)
   // console.log(emails)
@@ -57,6 +56,23 @@ const [hideRead, setHideRead] = useState(false)
 
 const emailsToHide = hideRead ? emails.filter((email) => email.read === false) : emails
 
+// EXTENSION 3
+
+const [inbox, setInbox] = useState(true)
+const [starred, setStarred] = useState(false)
+
+const unreadEmails = emails.filter((email) => {
+  if (email.read === false) {
+    return email
+  }
+})
+
+const starredEmails = emails.filter((email) => {
+  if (email.starred) {
+    return email
+  }
+})
+
   return (
     <div className="app">
       <Header />
@@ -67,14 +83,14 @@ const emailsToHide = hideRead ? emails.filter((email) => email.read === false) :
             // onClick={() => {}}
           >
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{unreadEmails.length}</span>
           </li>
           <li
             className="item"
             // onClick={() => {}}
           >
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count">{starredEmails.length}</span>
           </li>
 
           <li className="item toggle">
