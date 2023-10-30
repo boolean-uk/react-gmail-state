@@ -7,6 +7,21 @@ import './styles/App.css'
 function App() {
   // Use initialEmails for state
   const [renderedEmails, setEmails] = useState(initialEmails)
+  const [hideRead, setHideRead] = useState(false)
+
+  const toggleStar = (triggerItem) => {
+    setEmails(renderedEmails.map((item) => {
+      if (item === triggerItem) {
+        return {
+          ...item,
+          starred: !item.starred
+        }
+      } else {
+        return item
+      }
+    })
+    )
+  } 
 
   const Email = (item, index) => {
     return (
@@ -21,6 +36,7 @@ function App() {
           className="star-checkbox"
           type="checkbox"
           checked={item.starred}
+          onChange={() => toggleStar(item)}
         />
         </div>
         <div className="sender">{item.sender}</div>
