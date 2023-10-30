@@ -7,8 +7,6 @@ import './styles/App.css'
 function App() {
   // Use initialEmails for state
   const [emails, setEmails] = useState(initialEmails);
-  const [readEmails, setReadEmails] = useState();
-  const [starredEmails, setStarredEmails] = useState();
 
   const renderEmails = emails.map((email) => {
     return (
@@ -17,7 +15,9 @@ function App() {
           <div className="select">
             <input
               className="select-checkbox"
-              type="checkbox" />
+              type="checkbox" 
+              checked={email.read}
+              onChange={() => toggleRead(email)} />
           </div>
           <div className="star">
             <input
@@ -36,7 +36,21 @@ function App() {
     )
   })
 
-  const 
+  const toggleRead = (email) => {
+    const updatedEmails = emails.map((eachEmail) => {
+      if (eachEmail === email) {
+        return {
+          ...eachEmail,
+          read: !eachEmail.read,
+        }
+      } else {
+        return eachEmail
+      }
+    })
+    console.log(updatedEmails)
+    setEmails(updatedEmails)
+
+  }
 
   return (
     <div className="app">
@@ -63,8 +77,7 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-            onChange={() => {}}
+              onChange={() => {}}
             />
           </li>
         </ul>
