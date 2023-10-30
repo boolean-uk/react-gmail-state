@@ -36,20 +36,20 @@ function App() {
   }
 
 // TOGGLE STARRED STATE FUNCTION
-// function toggleStarred(email) {
-//   const starredEmail = emails.map((currentEmail) => {
-//     if (currentEmail === email) {
-//       return {
-//         ...currentEmail,
-//         starred: !currentEmail.starred
-//       }
-//     }
-//     else {
-//       return currentEmail
-//     }
-//   })
-//   setEmails(starredEmail)
-// }
+function toggleStarred(email) {
+  const starredEmail = emails.map((currentEmail) => {
+    if (currentEmail === email) {
+      return {
+        ...currentEmail,
+        starred: !currentEmail.starred
+      }
+    }
+    else {
+      return currentEmail
+    }
+  })
+  setEmails(starredEmail)
+}
 
   return (
     <div className="app">
