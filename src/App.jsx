@@ -7,7 +7,7 @@ import './styles/App.css'
 
 function App() {
   const [emails, setEmails] = useState(initialEmails)
-  console.log(emails)
+  // console.log(emails)
 
   // CREATE CLASSNAME DEPENDING ON READ/UNREAD STATE
   function readEmail(email) {
@@ -19,6 +19,7 @@ function App() {
       }
   }
 
+  // EXTENSION 1
   // TOGGLE READ STATE FUNCTION
   function toggleRead(email) {
       const readEmail = emails.map((currentEmail) => {
@@ -51,6 +52,11 @@ function toggleStarred(email) {
   setEmails(starredEmail)
 }
 
+// EXTENSION 2
+const [hideRead, setHideRead] = useState(false)
+
+const emailsToHide = hideRead ? emails.filter((email) => email.read === false) : emails
+
   return (
     <div className="app">
       <Header />
@@ -76,15 +82,15 @@ function toggleStarred(email) {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-              // onChange={() => {}}
+              checked={hideRead}
+              onChange={(e) => {setHideRead(e.target.checked)}}
             />
           </li>
         </ul>
       </nav>
       <main className="emails">
         <ul>
-          {emails.map((email) => 
+          {emailsToHide.map((email) => 
           <li key={email.id} className={`email ${readEmail(email)}`}  >
             <div className="select">
               <input className="select-checkbox" type="checkbox" checked={email.read} onChange={() => toggleRead(email)}/>
