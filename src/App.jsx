@@ -8,6 +8,10 @@ function App() {
 
 
   const [emails, setEmails] = useState(initialEmails)
+  const [unreadEmails, setUnreadEmails] = useState([])
+  const [hideRead, setHideRead] = useState(false)
+  const [display, setDisplay] = useState(emails)
+  
 
   const setEmailClassName = (email) => {
     if(email.read === true) {
@@ -29,6 +33,20 @@ function App() {
       em => em === email ? {...em, starred: !em.starred}: em
     )
     setEmails(updatedEmails)
+  }
+
+  const filterOutReadEmails = () => {
+      const currentUnread = emails.filter(em => em.read === false)
+      setUnreadEmails(currentUnread)
+  }
+
+
+  const toggleHideRead = () => {
+    if (hideRead === true) {
+      setDisplay(unreadEmails)
+    } else {
+      setDisplay(emails)
+    }
   }
 
 
@@ -57,14 +75,18 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-              // onChange={() => {}}
+              checked={!hideRead}
+              onChange={() => {
+                setHideRead(!hideRead)
+                filterOutReadEmails()
+                toggleHideRead()
+              }}
             />
           </li>
         </ul>
       </nav>
       <main className="emails">{
-        <ul> {emails.map((email, index) => (
+        <ul> {display.map((email, index) => (
           <li key={index} className={setEmailClassName(email)}>
           <div className="select">
             <input
