@@ -4,11 +4,21 @@ import { useState } from 'react'
 
 import './styles/App.css'
 
+
 function App() {
-  // Use initialEmails for state
-  console.log(initialEmails)
+  // console.log(initialEmails)
 
   const [emails, setEmails] = useState(initialEmails)
+  console.log(emails)
+
+  function readEmail(email) {
+      if (email.read === true) {
+        return 'read'
+      }
+      else {
+        return 'unread'
+      }
+  }
 
   return (
     <div className="app">
@@ -44,12 +54,13 @@ function App() {
       <main className="emails">
         <ul>
           {emails.map((email, index) => 
-          <li key={index} className='email'>
+          // <li key={index} className={'email'}>
+          <li key={index} className={`email ${readEmail(email)}`}  >
             <div className="select">
-              <input className="select-checkbox" type="checkbox"/>
+              <input className="select-checkbox" type="checkbox" checked={email.read}/>
             </div>
             <div className="star">
-              <input className="star-checkbox" type="checkbox"/>
+              <input className="star-checkbox" type="checkbox" checked={email.starred}/>
             </div>
             <div className="sender">{email.sender}</div>
             <div className="title">{email.title}</div>
