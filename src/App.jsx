@@ -29,6 +29,8 @@ function App() {
     )
   }
 
+  const getUnreadEmails = () => renderedEmails.filter(item => item.read === false)
+
   const renderEmails = () => {
     return(renderedEmails.map((item, index) => {
       return Email(item, index)
