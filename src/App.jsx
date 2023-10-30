@@ -20,6 +20,21 @@ function App() {
       }
   }
 
+  function toggleRead(email) {
+      const readEmail = emails.map((currentEmail) => {
+        if (currentEmail === email) {
+          return {
+            ...currentEmail,
+            read: !currentEmail.read
+          }
+        }
+        else {
+          return currentEmail
+        }
+      })
+    setEmails(readEmail)
+  }
+
   return (
     <div className="app">
       <Header />
@@ -53,14 +68,13 @@ function App() {
       </nav>
       <main className="emails">
         <ul>
-          {emails.map((email, index) => 
-          // <li key={index} className={'email'}>
-          <li key={index} className={`email ${readEmail(email)}`}  >
+          {emails.map((email) => 
+          <li key={email.id} className={`email ${readEmail(email)}`}  >
             <div className="select">
-              <input className="select-checkbox" type="checkbox" checked={email.read}/>
+              <input className="select-checkbox" type="checkbox" checked={email.read} onChange={() => toggleRead(email)}/>
             </div>
             <div className="star">
-              <input className="star-checkbox" type="checkbox" checked={email.starred}/>
+              <input className="star-checkbox" type="checkbox" checked={email.read}/>
             </div>
             <div className="sender">{email.sender}</div>
             <div className="title">{email.title}</div>
