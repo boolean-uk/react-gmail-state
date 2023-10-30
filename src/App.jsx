@@ -11,6 +11,9 @@ function App() {
 
   const [emails, setEmails] = useState(initialEmails)
 
+  const starred = () => emails.filter(email => email.starred) 
+  const readEmail = () => emails.filter(email => email.readEmail)
+
   return (
     <div className="app">
       <Header />
@@ -21,14 +24,14 @@ function App() {
           // onClick={() => {}}
           >
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{readEmail().length}</span>
           </li>
           <li
             className="item"
           // onClick={() => {}}
           >
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count">{starred().length}</span>
           </li>
 
           <li className="item toggle">
@@ -42,7 +45,7 @@ function App() {
           </li>
         </ul>
       </nav>
-      
+
       <main className="emails">
         {emails.map((email) => (<li
           key={email.id}
