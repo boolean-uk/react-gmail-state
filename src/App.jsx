@@ -59,7 +59,7 @@ function App() {
       </nav>
       <main className="emails">
         <ul>{filteredEmails.map(email =>
-         <li key={email.id} className="email">
+         <li key={email.id} className={`email ${email.read ? "read" : "unread"}`}>
           <div className="select">
           <input
           className="select-checkbox"
