@@ -13,10 +13,23 @@ function App() {
     if(email.read === true) {
       return "email read"
     } else {
-      return "email"
+      return "email unread"
     }
   }
 
+  const toggleRead = email => {
+    const updatedEmails = emails.map(
+      em => em === email ? {...em, read: !em.read}: em
+    )
+    setEmails(updatedEmails)
+  }
+
+  const toggleStarred = email => {
+    const updatedEmails = emails.map(
+      em => em === email ? {...em, starred: !em.starred}: em
+    )
+    setEmails(updatedEmails)
+  }
 
 
   return (
@@ -40,7 +53,7 @@ function App() {
           </li>
 
           <li className="item toggle">
-            <label for="hide-read">Hide read</label>
+            <label htmlFor="hide-read">Hide read</label>
             <input
               id="hide-read"
               type="checkbox"
@@ -57,13 +70,15 @@ function App() {
             <input
             className="select-checkbox"
             type="checkbox" 
-            checked={email.read} />
+            checked={email.read}
+            onChange={() => toggleRead(email)} />
           </div>
           <div className="star">
             <input
               className="star-checkbox"
               checked={email.starred}
               type="checkbox"
+              onChange={() => toggleStarred(email)}
             />
           </div>
           <div className="sender">{email.sender}</div>
