@@ -4,7 +4,7 @@ export default [
     sender: `Zoom`,
     title: `Cloud Recording - Nicolas Marcora's Personal Meeting Room is now available`,
     starred: false,
-    read: true
+    read: false
   },
   {
     id: 2,
@@ -17,8 +17,8 @@ export default [
     id: 3,
     sender: `Notion`,
     title: `1 update in Boolean`,
-    starred: true,
-    read: true
+    starred: false,
+    read: false
   },
   {
     id: 4,
@@ -31,7 +31,7 @@ export default [
     id: 5,
     sender: `Patrick`,
     title: `Updated invitation: Coding chat with Nico`,
-    starred: true,
+    starred: false,
     read: false
   }
 ]
