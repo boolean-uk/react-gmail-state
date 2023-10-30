@@ -8,43 +8,15 @@ import './styles/App.css'
 function App() {
 
   const [emails, setEmails] = useState(initialEmails)
-  const [emailStarred, setEmailStarred] = useState()
-  const [emailRead, setEmailRead] = useState()
-  
-
-  const hideRead = emailRead ? emails.filter(email => email.read === true) : emails;
-  const emailsStarred = emailStarred ? emails.filter(mail => mail.starred === true) : emails;
-
 
   const toggleStarred = (toggleStarredEmail) => {
-    console.log(toggleStarredEmail)
     const updatedEmails = emails.map((mappedEmail) => {
       if (mappedEmail === toggleStarredEmail) {
-        console.log(emails)
         return {
           ...toggleStarredEmail,
-          read: !toggleStarredEmail.read
+          starred: !toggleStarredEmail.starred
         }
-        
-      } else {
-        return mappedEmail
-      }
-    }
-    )
-    emailStarred(updatedEmails)
-  }
 
-
-  const toggleRead = (toggledEmail) => {
-    console.log(toggledEmail)
-    const updatedEmails = emails.map((mappedEmail) => {
-      if (mappedEmail === toggledEmail) {
-        console.log(emails)
-        return {
-          ...toggledEmail,
-          read: !toggledEmail.read
-        }
-        
       } else {
         return mappedEmail
       }
@@ -52,6 +24,28 @@ function App() {
     )
     setEmails(updatedEmails)
   }
+
+
+  const toggleRead = (toggledEmail) => {
+    const updatedEmails = emails.map((mappedEmail) => {
+      if (mappedEmail === toggledEmail) {
+        return {
+          ...toggledEmail,
+          read: !toggledEmail.read
+        }
+
+      } else {
+        return mappedEmail
+      }
+    }
+    )
+    setEmails(updatedEmails)
+  }
+
+  const hideRead = emails ? emails.filter(email => email.read === true) : emails;
+  const emailsThatAreStarred = emails ? emails.filter(mail => mail.starred === true) : emails;
+  
+
 
   return (
     <div className="app">
@@ -70,7 +64,7 @@ function App() {
           // onClick={() => {}}
           >
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count">{emailsThatAreStarred.length}</span>
           </li>
 
           <li className="item toggle">
@@ -92,12 +86,14 @@ function App() {
                 className="select-checkbox"
                 type="checkbox"
                 checked={email.read}
-                onChange={()=> toggleRead(email)} />
+                onChange={() => toggleRead(email)} />
             </div>
             <div className="star">
               <input
                 className="star-checkbox"
                 type="checkbox"
+                checked={email.starred}
+                onChange={() => toggleStarred(email)}
               />
             </div>
             <div className="sender">{email.sender}</div>
