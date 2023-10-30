@@ -11,6 +11,18 @@ function App() {
   const isStarred= () => emails.filter(email => email.starred)
   const isRead = () => emails.filter(email => email.read)
 
+  const toggleRead = (email) => {
+    email.read = !email.read
+
+    setEmails([...emails])
+  }
+
+  const toggleStar = (email) => {
+    email.starred = !email.starred
+
+    setEmails([...emails])
+  }
+
   return (
     <div className="app">
       <Header />
@@ -50,6 +62,7 @@ function App() {
           className="select-checkbox"
           type="checkbox"
           checked={email.read}
+          onChange={e => toggleRead(email)}
           />
           </div>
 
@@ -58,6 +71,7 @@ function App() {
           className="star-checkbox"
           type="checkbox"
           checked={email.starred}
+          onChange={e => toggleStar(email)}
           />
           </div>
 
