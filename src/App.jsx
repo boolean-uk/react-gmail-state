@@ -40,7 +40,8 @@ function App() {
   }
 
   function toggleActiveBox(event) {
-    const classList = event.target.classList;
+    const element = event.target.localName === "li" ? event.target : event.target.parentElement
+    const classList = element.classList;
     setActiveBox(classList[0]);
   }
 
