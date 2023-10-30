@@ -5,59 +5,15 @@ import { useState } from 'react'
 import './styles/App.css'
 
 function App() {
-  // Use initialEmails for state
-  console.log(initialEmails)
+
+
   const [emails, setEmails] = useState(initialEmails)
 
-  const renderUnreadEmail = (email, index) => {
-
-    return (
-    <li key={index} className="email">
-    <div className="select">
-      <input
-      className="select-checkbox"
-      type="checkbox"/>
-    </div>
-    <div className="star">
-      <input
-        className="star-checkbox"
-        type="checkbox"
-      />
-    </div>
-    <div className="sender">{email.sender}</div>
-    <div className="title">{email.title}</div>
-  </li>
-    )
-
-  }
-  
-  const renderReadEmail = (email, index) => {
-
-    return (
-    <li key={index} className="email read">
-    <div className="select">
-      <input
-      className="select-checkbox"
-      type="checkbox"/>
-    </div>
-    <div className="star">
-      <input
-        className="star-checkbox"
-        type="checkbox"
-      />
-    </div>
-    <div className="sender">{email.sender}</div>
-    <div className="title">{email.title}</div>
-  </li>
-    )
-
-  }
-
-  const renderEmail = (email, index) => {
+  const setEmailClassName = (email) => {
     if(email.read === true) {
-      return(renderReadEmail(email, index))
+      return "email read"
     } else {
-      return(renderUnreadEmail(email, index))
+      return "email"
     }
   }
 
@@ -96,22 +52,23 @@ function App() {
       </nav>
       <main className="emails">{
         <ul> {emails.map((email, index) => (
-          renderEmail(email, index)
-          // <li key={index} className="email read">
-          //   <div className="select">
-          //     <input
-          //     className="select-checkbox"
-          //     type="checkbox"/>
-          //   </div>
-          //   <div className="star">
-          //     <input
-          //       className="star-checkbox"
-          //       type="checkbox"
-          //     />
-          //   </div>
-          //   <div className="sender">{email.sender}</div>
-          //   <div className="title">{email.title}</div>
-          // </li>
+          <li key={index} className={setEmailClassName(email)}>
+          <div className="select">
+            <input
+            className="select-checkbox"
+            type="checkbox" 
+            checked={email.read} />
+          </div>
+          <div className="star">
+            <input
+              className="star-checkbox"
+              checked={email.starred}
+              type="checkbox"
+            />
+          </div>
+          <div className="sender">{email.sender}</div>
+          <div className="title">{email.title}</div>
+        </li>
         )
         )}
         </ul>
