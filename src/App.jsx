@@ -6,11 +6,10 @@ import './styles/App.css'
 
 
 function App() {
-  // console.log(initialEmails)
-
   const [emails, setEmails] = useState(initialEmails)
   console.log(emails)
 
+  // CREATE CLASSNAME DEPENDING ON READ/UNREAD STATE
   function readEmail(email) {
       if (email.read === true) {
         return 'read'
@@ -20,6 +19,7 @@ function App() {
       }
   }
 
+  // TOGGLE READ STATE FUNCTION
   function toggleRead(email) {
       const readEmail = emails.map((currentEmail) => {
         if (currentEmail === email) {
@@ -34,6 +34,22 @@ function App() {
       })
     setEmails(readEmail)
   }
+
+// TOGGLE STARRED STATE FUNCTION
+// function toggleStarred(email) {
+//   const starredEmail = emails.map((currentEmail) => {
+//     if (currentEmail === email) {
+//       return {
+//         ...currentEmail,
+//         starred: !currentEmail.starred
+//       }
+//     }
+//     else {
+//       return currentEmail
+//     }
+//   })
+//   setEmails(starredEmail)
+// }
 
   return (
     <div className="app">
@@ -74,7 +90,7 @@ function App() {
               <input className="select-checkbox" type="checkbox" checked={email.read} onChange={() => toggleRead(email)}/>
             </div>
             <div className="star">
-              <input className="star-checkbox" type="checkbox" checked={email.read}/>
+              <input className="star-checkbox" type="checkbox" checked={email.starred} onChange={() => toggleStarred(email)}/>
             </div>
             <div className="sender">{email.sender}</div>
             <div className="title">{email.title}</div>
