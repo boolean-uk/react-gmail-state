@@ -1,12 +1,18 @@
+import { useState } from 'react'
 import Header from './components/header'
 import initialEmails from './data/emails'
+
 
 import './styles/App.css'
 
 function App() {
+  const [emails,setEmails] = useState(initialEmails)
   // Use initialEmails for state
-  console.log(initialEmails)
+  console.log(emails)
 
+
+const starredEmail = () => emails.filter(email =>email.starred)
+const readEmail = () => emails.filter(email => email.read)
   return (
     <div className="app">
       <Header />
@@ -17,14 +23,14 @@ function App() {
             // onClick={() => {}}
           >
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{readEmail().length}</span>
           </li>
           <li
             className="item"
             // onClick={() => {}}
           >
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count">{starredEmail().length}</span>
           </li>
 
           <li className="item toggle">
@@ -38,7 +44,21 @@ function App() {
           </li>
         </ul>
       </nav>
-      <main className="emails">{/* Render a list of emails here */}</main>
+      <main className="emails">
+        <ul>{emails.map(email =>
+          <li key={email.id} className="email">
+            <div className="select">
+              <input type="checkbox" className="select-checkbox" checked={email.read} />
+            </div>
+            <div className="star">
+              <input type="checkbox" className="star-checkbox" checked={email.starred}/>
+            </div>
+            <div className="sender">{email.sender}</div>
+            <div className="title">{email.title}</div>
+          </li>
+        )}
+      </ul>
+      </main>
     </div>
   )
 }
