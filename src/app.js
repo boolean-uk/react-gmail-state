@@ -1,55 +1,47 @@
 import { useState } from 'react';
 import Header from './components/header';
-import initialEmails from './data/emails';
-import './styles/app.css';
+import Header from './components/header'
+import initialEmails from './data/emails'
+
+import './styles/App.css'
 
 function App() {
-  const [emails, setEmails] = useState(initialEmails);
+ const [emails, setEmails] = useState(initialEmails)
 
   return (
     <div className="app">
       <Header />
       <nav className="left-menu">
         <ul className="inbox-list">
-          <li className="item active">
+          <li
+            className="item active"
+            // onClick={() => {}}
+          >
             <span className="label">Inbox</span>
-            <span className="count">{emails.length}</span>
+            <span className="count">?</span>
           </li>
-          <li className="item">
+          <li
+            className="item"
+            // onClick={() => {}}
+          >
             <span className="label">Starred</span>
-            <span className="count">{
-              emails.filter(email => email.starred).length
-            }</span>
+            <span className="count">?</span>
           </li>
+
           <li className="item toggle">
-            <label htmlFor="hide-read">Hide read</label>
+            <label for="hide-read">Hide read</label>
             <input
               id="hide-read"
               type="checkbox"
               checked={false}
-              onChange={() => {}}
+              // onChange={() => {}}
             />
           </li>
         </ul>
       </nav>
-      <main className="emails">
-        <ul>
-          {emails.map(email => (
-            <li key={email.title} className="email">
-              <div className="select">
-                <input className="select-checkbox" type="checkbox" />
-              </div>
-              <div className="star">
-                <input className="star-checkbox" type="checkbox" defaultChecked={email.starred} />
-              </div>
-              <div className="sender">{email.sender}</div>
-              <div className="title">{email.title}</div>
-            </li>
-          ))}
-        </ul>
-      </main>
+      <main className="emails">{/* Render a list of emails here */}</main>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
