@@ -44,7 +44,30 @@ function App() {
     setEmails(updatedEmails)
   }
 
-  const unread = emails ? emails.filter(email => email.read === false) : emails;
+  // const renderEmails = (item) => {
+  //   item.map((email, index) => (
+  //     <li key={index} className="email">
+  //       <div className="select">
+  //         <input
+  //           className="select-checkbox"
+  //           type="checkbox"
+  //           checked={email.read}
+  //           onChange={() => toggleRead(email)} />
+  //       </div>
+  //       <div className="star">
+  //         <input
+  //           className="star-checkbox"
+  //           type="checkbox"
+  //           checked={email.starred}
+  //           onChange={() => toggleStarred(email)}
+  //         />
+  //       </div>
+  //       <div className="sender">{email.sender}</div>
+  //       <div className="title">{email.title}</div>
+  //     </li>
+  // ))}
+  
+  const unread = hideEmails ? emails.filter(email => email.read === false) : emails;
   const emailsThatAreStarred = emails ? emails.filter(mail => mail.starred === true) : emails;
 
 
@@ -88,7 +111,7 @@ function App() {
         </ul>
       </nav>
       <main className="emails">
-        {emails.map((email, index) => (
+        {unread.map((email, index) => (
           <li key={index} className="email">
             <div className="select">
               <input
