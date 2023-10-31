@@ -5,7 +5,7 @@ import initialEmails from './data/emails'
 import './styles/App.css'
 
 function App() {
- const [emails, setEmails] = useState(initialEmails)
+  const [emails, setEmails] = useState(initialEmails)
 
   return (
     <div className="app">
@@ -14,14 +14,14 @@ function App() {
         <ul className="inbox-list">
           <li
             className="item active"
-            onClick={() => {}}
+            onClick={() => { }}
           >
             <span className="label">Inbox</span>
             <span className="count">?</span>
           </li>
           <li
             className="item"
-            // onClick={() => {}}
+            onClick={() => { }}
           >
             <span className="label">Starred</span>
             <span className="count">?</span>
@@ -33,31 +33,39 @@ function App() {
               id="hide-read"
               type="checkbox"
               checked={false}
-              onChange={() => {}}
+              onChange={() => { }}
             />
           </li>
         </ul>
       </nav>
       <main className="emails">
-<ul>
-  
-<li key={emails.title} className="email">
-  <div className="select">
-	<input
-	  className="select-checkbox"
-	  type="checkbox"/>
-  </div>
-  <div className="star">
-	<input
-	  className="star-checkbox"
-	  type="checkbox"
-	/>
-  </div>
-  <div className="sender">{emails.sender}</div>
-  <div className="title"></div>
-</li>
+        <ul>
+          {emails.map((email) => (
+            <li key={emails.title} className="email">
 
-</ul>
+
+              <div className="select">
+                <input
+                  className="select-checkbox"
+                  type="checkbox"
+                  checked={email.read} />
+
+              </div>
+              <div className="star">
+                <input
+                  className="star-checkbox"
+                  type="checkbox"
+                  checked={email.starred}
+                />
+
+
+              </div>
+              <div className="sender">{emails.sender}</div>
+              <div className="title">{email.title}</div>
+            </li>
+          ))}
+
+        </ul>
 
 
       </main>
