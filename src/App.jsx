@@ -6,12 +6,15 @@ import './styles/App.css'
 
 function App() {
   // Use initialEmails for state
-  const allEmails = initialEmails
-  const [renderedEmails, setEmails] = useState(allEmails)
+  const [renderedEmails, setEmails] = useState(initialEmails)
   const [hideRead, setHideRead] = useState(false)
 
+  const getUnreadEmails = renderedEmails.filter(item => item.read === false)
+  
+  const emailsToShow = hideRead ? getUnreadEmails : renderedEmails
+
   const toggleStar = (triggerItem) => {
-    setEmails(renderedEmails.map((item) => {
+    setEmails(emailsToShow.map((item) => {
       if (item === triggerItem) {
         return {
           ...item,
@@ -46,12 +49,8 @@ function App() {
     )
   }
 
-  const getUnreadEmails = () => renderedEmails.filter(item => item.read === false)
-  
-  hideRead ? setEmails(getUnreadEmails()) : setEmails(allEmails)
-  
   const renderEmails = () => {
-    return(renderedEmails.map((item, index) => {
+    return(emailsToShow.map((item, index) => {
       return Email(item, index)
     }))
   }
@@ -81,7 +80,8 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              onChange={(e) => setHideRead(e.target.checked)}
+              checked={hideRead}
+              onClick={() => {setHideRead(!hideRead)}}
             />
           </li>
         </ul>
