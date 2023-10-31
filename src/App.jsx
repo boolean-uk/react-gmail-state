@@ -6,18 +6,19 @@ import "./styles/App.css";
 
 function App() {
     // Use initialEmails for state
-    const [state, setState] = useState(initialEmails);
+    const [emails, setEmails] = useState(initialEmails);
+    const [hideRead, setHideRead] = useState(false);
 
     const toggleRead = (eml) =>
-        setState(
-            state.map((item) =>
+        setEmails(
+            emails.map((item) =>
                 item === eml ? { ...eml, read: !eml.read } : item
             )
         );
 
     const toggleStar = (eml) =>
-        setState(
-            state.map((item) =>
+        setEmails(
+            emails.map((item) =>
                 item === eml ? { ...eml, starred: !eml.starred } : item
             )
         );
@@ -47,35 +48,37 @@ function App() {
                         <input
                             id="hide-read"
                             type="checkbox"
-                            checked={false}
-                            onChange={() => {}}
+                            checked={hideRead}
+                            onChange={() => setHideRead(!hideRead)}
                         />
                     </li>
                 </ul>
             </nav>
             <main className="emails">
-                {state.map((email, index) => (
-                    <li className="email" key={index}>
-                        <div className="select">
-                            <input
-                                className="select-checkbox"
-                                type="checkbox"
-                                checked={email.read}
-                                onChange={() => toggleRead(email)}
-                            />
-                        </div>
-                        <div className="star">
-                            <input
-                                className="star-checkbox"
-                                type="checkbox"
-                                checked={email.starred}
-                                onChange={() => toggleStar(email)}
-                            />
-                        </div>
-                        <div className="sender">{email.sender}</div>
-                        <div className="title">{email.title}</div>
-                    </li>
-                ))}
+                {emails
+                    .filter((item) => (hideRead ? item.read : item))
+                    .map((email, index) => (
+                        <li className="email" key={index}>
+                            <div className="select">
+                                <input
+                                    className="select-checkbox"
+                                    type="checkbox"
+                                    checked={email.read}
+                                    onChange={() => toggleRead(email)}
+                                />
+                            </div>
+                            <div className="star">
+                                <input
+                                    className="star-checkbox"
+                                    type="checkbox"
+                                    checked={email.starred}
+                                    onChange={() => toggleStar(email)}
+                                />
+                            </div>
+                            <div className="sender">{email.sender}</div>
+                            <div className="title">{email.title}</div>
+                        </li>
+                    ))}
             </main>
         </div>
     );
