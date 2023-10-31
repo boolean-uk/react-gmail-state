@@ -8,13 +8,23 @@ function App() {
   // Use initialEmails for state
   const [renderedEmails, setEmails] = useState(initialEmails)
   const [hideRead, setHideRead] = useState(false)
+  const [tab, setTab] = useState("Inbox")
+  // const [shownEmails, filterForRendering] = useState(initialEmails)
 
   const getUnreadEmails = renderedEmails.filter(item => item.read === false)
   
-  const emailsToShow = hideRead ? getUnreadEmails : renderedEmails
+  const emailsToShow = () => {
+    console.log("filtering", tab)
+    let filteredResult
+    filteredResult = tab === "Starred" ?  filteredResult.filter(item => item.starred === true) : renderedEmails
+    if (hideRead) filteredResult = filteredResult.filter(item => item.read === false) 
+    return filteredResult
+  }
+
+  const shownEmails = emailsToShow()
 
   const toggleSelection = (triggerItem) => {
-    setEmails(emailsToShow.map((item) => {
+    setEmails(shownEmails.map((item) => {
       if (item === triggerItem) {
         return {
           ...item,
@@ -28,7 +38,7 @@ function App() {
   }
 
   const toggleStar = (triggerItem) => {
-    setEmails(emailsToShow.map((item) => {
+    setEmails(shownEmails.map((item) => {
       if (item === triggerItem) {
         return {
           ...item,
@@ -64,7 +74,7 @@ function App() {
   }
 
   const renderEmails = () => {
-    return(emailsToShow.map((item, index) => {
+    return(shownEmails.map((item, index) => {
       return Email(item, index)
     }))
   }
@@ -78,14 +88,14 @@ function App() {
         <ul className="inbox-list">
           <li
             className="item active"
-            // onClick={() => {}}
+            onClick={() => {setTab("Inbox")}}
           >
             <span className="label">Inbox</span>
             <span className="count">{getUnreadEmails.length}</span>
           </li>
           <li
             className="item"
-            // onClick={() => {}}
+            onClick={() => {setTab("Starred")}}
           >
             <span className="label">Starred</span>
             <span className="count">{numStarred}</span>
