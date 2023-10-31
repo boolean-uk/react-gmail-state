@@ -8,6 +8,14 @@ function App() {
     // Use initialEmails for state
     const [state, setState] = useState(initialEmails);
 
+    const toggleRead = (eml) => {
+        setState(
+            state.map((item) =>
+                item === eml ? { ...eml, read: !eml.read } : item
+            )
+        );
+    };
+
     return (
         <div className="app">
             <Header />
@@ -47,7 +55,7 @@ function App() {
                                 className="select-checkbox"
                                 type="checkbox"
                                 checked={email.read}
-                                onChange={() => {}}
+                                onChange={() => toggleRead(email)}
                             />
                         </div>
                         <div className="star">
