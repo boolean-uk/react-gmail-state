@@ -9,6 +9,7 @@ function App() {
 
   const [emails, setEmails] = useState(initialEmails)
   const [hideEmails, setHideEmails] = useState(false)
+  const [hideStarred, sethideStarred] = useState(false)
 
 
   const toggleStarred = (toggleStarredEmail) => {
@@ -46,8 +47,8 @@ function App() {
 
 
   
-  const unread = hideEmails ? emails.filter(email => email.read === false) : emails;
-  const emailsThatAreStarred = emails ? emails.filter(mail => mail.starred === true) : emails;
+  let whatToShow = hideEmails ? emails.filter(email => email.read === false) : emails;
+
 
 
 
@@ -85,7 +86,7 @@ function App() {
         </ul>
       </nav>
       <main className="emails">
-        {unread.map((email, index) => (
+        {whatToShow.map((email, index) => (
           <li key={index} className="email">
             <div className="select">
               <input
