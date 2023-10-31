@@ -13,6 +13,20 @@ function App() {
   
   const emailsToShow = hideRead ? getUnreadEmails : renderedEmails
 
+  const toggleSelection = (triggerItem) => {
+    setEmails(emailsToShow.map((item) => {
+      if (item === triggerItem) {
+        return {
+          ...item,
+          starred: !item.starred
+        }
+      } else {
+        return item
+      }
+    })
+    )
+  }
+
   const toggleStar = (triggerItem) => {
     setEmails(emailsToShow.map((item) => {
       if (item === triggerItem) {
@@ -55,6 +69,8 @@ function App() {
     }))
   }
 
+  const numStarred = renderedEmails.filter(item => item.starred === true).length
+
   return (
     <div className="app">
       <Header />
@@ -65,14 +81,14 @@ function App() {
             // onClick={() => {}}
           >
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{renderedEmails.length}</span>
           </li>
           <li
             className="item"
             // onClick={() => {}}
           >
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count">{numStarred}</span>
           </li>
 
           <li className="item toggle">
