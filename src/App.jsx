@@ -3,6 +3,7 @@ import initialEmails from './data/emails'
 import { useState } from 'react'
 
 import './styles/App.css'
+import { flushSync } from 'react-dom'
 
 function App() {
   const [emails, setEmails] = useState(initialEmails)
@@ -64,14 +65,23 @@ const unreadEmails = emails.filter((email) => {
 })
 
 const starredEmails = emails.filter((email) => {
-  if (email.starred) {
+  if (email.starred === true) {
+    return email
+  }
+})
+
+const starredUnreadEmails = emails.filter((email) => {
+  if (email.read === false && email.starred === true) {
     return email
   }
 })
 
 let currentEmailList
 
-if (inbox === false) {
+if (inbox === false && hideRead === true) {
+  currentEmailList = starredUnreadEmails
+}
+else if (inbox === false) {
   currentEmailList = starredEmails
 }
 else if (hideRead) {
@@ -100,7 +110,7 @@ else currentEmailList = emails
           </li>
 
           <li className="item toggle">
-            <label for="hide-read">Hide read</label>
+            <label htmlFor="hide-read">Hide read</label>
             <input
               id="hide-read"
               type="checkbox"
