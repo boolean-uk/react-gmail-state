@@ -81,7 +81,7 @@ function App() {
             // onClick={() => {}}
           >
             <span className="label">Inbox</span>
-            <span className="count">{renderedEmails.length}</span>
+            <span className="count">{getUnreadEmails.length}</span>
           </li>
           <li
             className="item"
