@@ -8,6 +8,7 @@ function App() {
     // Use initialEmails for state
     const [emails, setEmails] = useState(initialEmails);
     const [hideRead, setHideRead] = useState(false);
+    const [currentTab, setCurrentTab] = useState("inbox");
 
     const toggleRead = (eml) =>
         setEmails(
@@ -29,18 +30,24 @@ function App() {
             <nav className="left-menu">
                 <ul className="inbox-list">
                     <li
-                        className="item active"
-                        // onClick={() => {}}
+                        className={
+                            currentTab === "inbox" ? `item active` : "item"
+                        }
+                        onClick={() => setCurrentTab("inbox")}
                     >
                         <span className="label">Inbox</span>
-                        <span className="count">?</span>
+                        <span className="count">{emails.length}</span>
                     </li>
                     <li
-                        className="item"
-                        // onClick={() => {}}
+                        className={
+                            currentTab === "starred" ? `item active` : "item"
+                        }
+                        onClick={() => setCurrentTab("starred")}
                     >
                         <span className="label">Starred</span>
-                        <span className="count">?</span>
+                        <span className="count">
+                            {emails.filter((item) => item.starred).length}
+                        </span>
                     </li>
 
                     <li className="item toggle">
@@ -56,7 +63,10 @@ function App() {
             </nav>
             <main className="emails">
                 {emails
-                    .filter((item) => (hideRead ? item.read : item))
+                    .filter((item) => (hideRead ? !item.read : item))
+                    .filter((item) =>
+                        currentTab === "starred" ? item.starred : item
+                    )
                     .map((email, index) => (
                         <li className="email" key={index}>
                             <div className="select">
