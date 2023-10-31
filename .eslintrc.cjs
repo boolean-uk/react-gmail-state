@@ -1,20 +1,17 @@
 module.exports = {
-  root: true,
-  env: { browser: true, es2020: true },
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:react/jsx-runtime',
-    'plugin:react-hooks/recommended',
-  ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
-  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-  settings: { react: { version: '18.2' } },
-  plugins: ['react-refresh'],
-  rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
-  },
-}
+    root: true,
+    extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+    parser: "@typescript-eslint/parser",
+    parserOptions: { project: ["./tsconfig.json"] },
+    plugins: ["@typescript-eslint"],
+    rules: {
+        "@typescript-eslint/strict-boolean-expressions": [
+            2,
+            {
+                allowString: false,
+                allowNumber: false,
+            },
+        ],
+    },
+    ignorePatterns: ["src/**/*.test.ts", "src/frontend/generated/*"],
+};
