@@ -112,6 +112,7 @@ function App() {
               id="hide-read"
               type="checkbox"
               checked={hideRead}
+              // I'm not sure whether we're really supposed to toggle – setting it to "read = true" makes more sense – but here's the requested implementation of toggling
               onClick={() => setHideRead(!hideRead)}
             />
           </li>
