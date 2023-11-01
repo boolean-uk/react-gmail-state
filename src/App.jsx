@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Header from './components/header'
+import Header from './components/Header'
 import initialEmails from './data/emails'
 
 
@@ -12,8 +12,9 @@ function App() {
   const [emails, setEmails] = useState(initialEmails)
 
 
-  const starred = () => emails.filter(email => email.starred) 
-  const read = () => emails.filter(email => email.read)
+
+  const starred = () => emails.filter(emails => emails.starred)
+  const read = () => emails.filter(emails => emails.read)
 
   return (
     <div className="app">
@@ -25,18 +26,18 @@ function App() {
           // onClick={() => {}}
           >
             <span className="label">Inbox</span>
-            <span className="count">{read().length}</span>
+            <span className="count">{starred().length}</span>
           </li>
           <li
             className="item"
           // onClick={() => {}}
           >
             <span className="label">Starred</span>
-            <span className="count">{starred().length}</span>
+            <span className="count">{read().length}</span>
           </li>
 
           <li className="item toggle">
-            <label for = "hide-read">Hide read</label>
+            <label for="hide-read" >Hide read</label>
             <input
               id="hide-read"
               type="checkbox"
@@ -47,32 +48,33 @@ function App() {
         </ul>
       </nav>
 
-   
+
       <main className="emails">
-        {emails.map((email) => (<li 
-        key={email.id}
-        className = {`email ${email.read ? "read" : "unread"}`}
+        {emails.map((emails) =>
+        (<li
+          key={emails.id}
+          className={`email ${emails.read ? "read" : "unread"}`}
         >
           <div className='select'>
             <input
-            className="select-checkbox"
-            type="checkbox"
-              checked={email.read}
-              />
-          </div>
-          <div className='star'>
-          <input
-            className="star-checkbox"
-            type="checkbox"
-              checked={email.starred}
+              className="select-checkbox"
+              type="checkbox"
+              checked={emails.read}
             />
           </div>
-          <div className='sender'>{email.sender}</div>
-          <div className='title'>{email.title}</div>
+          <div className='star'>
+            <input
+              className="star-checkbox"
+              type="checkbox"
+              checked={emails.starred}
+            />
+          </div>
+          <div className='sender'>{emails.sender}</div>
+          <div className='title'>{emails.title}</div>
 
         </li>))
 
-      }</main>
+        }</main>
     </div>
   )
 }
