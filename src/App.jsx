@@ -1,9 +1,12 @@
 import { useState } from "react";
 // code added import useState
-import Header from "./components/header";
+import Header from "./components/Header";
 import initialEmails from "./data/emails";
 
 import "./styles/App.css";
+//You need to render a list of emails from state so it looks similar to the screenshot above.
+// Set state using the useState hook and the intialEmails variable provided for you.
+// You can find an HTML template for each email in the src/templates folder.
 
 function App() {
   // Use initialEmails for state
@@ -17,23 +20,6 @@ function App() {
 
     setEmails(newE);
   }
-
-  //You need to render a list of emails from state so it looks similar to the screenshot above.
-  // Set state using the useState hook and the intialEmails variable provided for you.
-  // You can find an HTML template for each email in the src/templates folder.
-
-  // Add new email
-  // eslint-disable-next-line no-unused-vars
-  const addNewEmail = () => {
-    const newEmail = {
-      sender: "Zoom",
-    };
-    console.log("added new email", addNewEmail);
-    const updatedEmails = [...emails, newEmail];
-
-    setEmails(updatedEmails);
-    console.log(updatedEmails, "updated ");
-  };
 
   // Code added from above
   return (
