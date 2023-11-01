@@ -1,4 +1,4 @@
-import Header from "./components/header";
+import Header from "./components/Header.jsx";
 import initialEmails from "./data/emails";
 
 import { useState } from "react";
