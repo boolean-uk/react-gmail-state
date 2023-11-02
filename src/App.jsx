@@ -46,70 +46,77 @@ function App() {
   }
 
 
-  
+
   let whatToShow = hideEmails ? emails.filter(email => email.read === false) : emails;
 
+  const emailsThatAreStarred = emails.map((email)=> {
+    let sum = 0
+    if (email.starred === true){
+      sum += 1
+    }
+    return sum
+  })
 
 
 
-  return (
-    <div className="app">
-      <Header />
-      <nav className="left-menu">
-        <ul className="inbox-list">
-          <li
-            className="item active"
-            onClick={() => { }}
-          >
-            <span className="label">Inbox</span>
-            <span className="count">{emails.length}</span>
-          </li>
-          <li
-            className="item"
-            onClick={() => { }}
-          >
-            <span className="label">Starred</span>
-            <span className="count">{emailsThatAreStarred.length}</span>
-          </li>
+return (
+  <div className="app">
+    <Header />
+    <nav className="left-menu">
+      <ul className="inbox-list">
+        <li
+          className="item active"
+          onClick={() => { }}
+        >
+          <span className="label">Inbox</span>
+          <span className="count">{emails.length}</span>
+        </li>
+        <li
+          className="item"
+          onClick={() => { }}
+        >
+          <span className="label">Starred</span>
+          <span className="count">{emailsThatAreStarred}</span>
+        </li>
 
-          <li className="item toggle">
-            <label htmlFor="hide-read">Hide read</label>
+        <li className="item toggle">
+          <label htmlFor="hide-read">Hide read</label>
+          <input
+            id="hide-read"
+            type="checkbox"
+            checked={hideEmails}
+            onChange={(e) => {
+              setHideEmails(e.target.checked)
+            }}
+          />
+        </li>
+      </ul>
+    </nav>
+    <main className="emails">
+      {whatToShow.map((email, index) => (
+        <li key={index} className="email">
+          <div className="select">
             <input
-              id="hide-read"
+              className="select-checkbox"
               type="checkbox"
-              checked={hideEmails}
-              onChange={(e) => {
-                setHideEmails(e.target.checked)
-              }}
+              checked={email.read}
+              onChange={() => toggleRead(email)} />
+          </div>
+          <div className="star">
+            <input
+              className="star-checkbox"
+              type="checkbox"
+              checked={email.starred}
+              onChange={() => toggleStarred(email)}
             />
-          </li>
-        </ul>
-      </nav>
-      <main className="emails">
-        {whatToShow.map((email, index) => (
-          <li key={index} className="email">
-            <div className="select">
-              <input
-                className="select-checkbox"
-                type="checkbox"
-                checked={email.read}
-                onChange={() => toggleRead(email)} />
-            </div>
-            <div className="star">
-              <input
-                className="star-checkbox"
-                type="checkbox"
-                checked={email.starred}
-                onChange={() => toggleStarred(email)}
-              />
-            </div>
-            <div className="sender">{email.sender}</div>
-            <div className="title">{email.title}</div>
-          </li>
-        ))}
-      </main>
-    </div>
-  )
+          </div>
+          <div className="sender">{email.sender}</div>
+          <div className="title">{email.title}</div>
+        </li>
+      ))}
+    </main>
+  </div>
+)
 }
 
 export default App
