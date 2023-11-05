@@ -9,19 +9,32 @@ import './styles/App.css'
 function App() {
   // Use initialEmails for state
   // console.log(initialEmails)
-  const [EmailList] = useState(Emails)
-  const [Main, setMain] = useState([])
+  const [EmailList, setEmailList ] = useState(Emails)
+  const [hideRead, setHideRead] = useState(false)
+  const [starred, setStarred] = useState(false)
 
 
-  // const ToggleStarred = (emailToToggle) => {
-  //   const updatedEmails = EmailList.map((email) =>
-  //     email.id === emailToToggle.id
-  //       ? { ...email, starred: !email.starred }
-  //       : email
-  //   );
-  //   setMain(updatedEmails);
-  // }
 
+
+
+
+  let emailToShow = hideRead
+  if (hideRead) {
+     emailToShow = EmailList.filter((email) => email.read === true)
+    console.log(emailToShow)
+
+  } else if(starred) {
+    emailToShow = EmailList.filter((email) => email.starred === false)
+    console.log(emailToShow)
+
+  } else {
+    emailToShow = EmailList
+  }
+
+
+
+
+  
 
 
 
@@ -41,24 +54,32 @@ function App() {
             className="item"
             // onClick={() => {}}
           >
-            <span className="label">Starred</span>
-            <span className="count">?</span>
-          </li>
-
+          
           <li className="item toggle">
-            <label for="hide-read">Hide read</label>
+            <label htmlFor="hide-read">Starred Read</label>
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-      
-              // onChange={() => {}}
+              checked={starred}
+              onChange={(event) => {setStarred(event.target.checked)}}
+            />
+          </li>
+             
+          </li>
+
+          <li className="item toggle">
+            <label htmlFor="hide-read">Hide Rread</label>
+            <input
+              id="hide-read"
+              type="checkbox"
+              checked={hideRead}
+              onChange={(event) => {setHideRead(event.target.checked)}}
             />
           </li>
         </ul>
       </nav>
-    <main className="emails"> {Main}
-       {EmailList.map((email) => (
+    <main className="emails">
+       {emailToShow.map((email) => (
          <li  className='email mikel' key={email.id}> 
             <div className="select">
             <input
