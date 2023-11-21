@@ -76,7 +76,7 @@ return (
           onClick={() => { }}
         >
           <span className="label">Starred</span>
-          <span className="count">{emailsThatAreStarred}</span>
+          <span className="count">{emailsThatAreStarred.length}</span>
         </li>
 
         <li className="item toggle">
