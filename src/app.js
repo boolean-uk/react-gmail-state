@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from './components/header';
 import initialEmails from './data/emails';
-import './styles/App.css';
+import "./styles/app.css";
 
 function App() {
   const [emails, setEmails] = useState(initialEmails);
