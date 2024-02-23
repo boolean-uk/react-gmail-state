@@ -10,6 +10,12 @@ function App() {
 
 	const [emails, setEmails] = useState(initialEmails);
 	const [hideRead, setHideRead] = useState(false);
+	const [selectedTab, setSelectedTab] = useState("inbox");
+
+	const TabsEnum = Object.freeze({
+		INBOX: "inbox",
+		STARRED: "starred",
+	});
 
 	const toggleRead = (clickedEmail) => {
 		const updatedEmails = emails.map((email) =>
@@ -33,11 +39,33 @@ function App() {
 		setHideRead(!hideRead);
 	};
 
-	let filteredEmails = [...emails];
+	const getFilteredEmails = () => {
+		let filteredEmails = [...emails];
 
-	hideRead
-		? (filteredEmails = emails.filter((email) => email.read === false))
-		: emails;
+		filteredEmails = filterReadEmails(filteredEmails);
+		filteredEmails = filterNotStarredEmails(filteredEmails);
+
+		return filteredEmails;
+	};
+
+	const filterReadEmails = (filteredEmails) => {
+		if (hideRead) {
+			return filteredEmails.filter((email) => email.read === false);
+		}
+		return filteredEmails;
+	};
+
+	const filterNotStarredEmails = (filteredEmails) => {
+		if (selectedTab === "starred") {
+			return filteredEmails.filter((email) => email.starred === true);
+		}
+		return filteredEmails;
+	};
+
+	const selectTab = (event) => {
+		const selectedTabName = event.target.textContent.toLowerCase();
+		setSelectedTab(selectedTabName);
+	};
 
 	return (
 		<div className="app">
@@ -45,17 +73,21 @@ function App() {
 			<nav className="left-menu">
 				<ul className="inbox-list">
 					<li
-						className="item active"
-						// onClick={() => {}}
+						className={`item ${selectedTab === TabsEnum.INBOX ? "active" : ""}`}
 					>
-						<span className="label">Inbox</span>
+						<span className="label" onClick={(event) => selectTab(event)}>
+							Inbox
+						</span>
 						<span className="count">{emails.length}</span>
 					</li>
 					<li
-						className="item"
-						// onClick={() => {}}
+						className={`item ${
+							selectedTab === TabsEnum.STARRED ? "active" : ""
+						}`}
 					>
-						<span className="label">Starred</span>
+						<span className="label" onClick={(event) => selectTab(event)}>
+							Starred
+						</span>
 						<span className="count">
 							{emails.filter((email) => email.starred === true).length}
 						</span>
@@ -75,7 +107,7 @@ function App() {
 				</ul>
 			</nav>
 			<main className="emails">
-				{filteredEmails.map((email, index) => {
+				{getFilteredEmails().map((email, index) => {
 					return (
 						<li
 							className={`email ${email.read ? "read" : "unread"}`}
