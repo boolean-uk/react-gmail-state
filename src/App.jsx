@@ -8,6 +8,18 @@ function App() {
   // Use initialEmails for state
   console.log(initialEmails);
 
+  const toggleRead = (index) => {
+    const updatedEmails = [...emails];
+    updatedEmails[index].read = !updatedEmails[index].read;
+    setEmails(updatedEmails);
+  };
+
+  const toggleStar = (index) => {
+    const updatedEmails = [...emails];
+    updatedEmails[index].starred = !updatedEmails[index].starred;
+    setEmails(updatedEmails);
+  };
+
   return (
     <div className="app">
       <Header />
@@ -48,10 +60,20 @@ function App() {
               key={index}
             >
               <div className="select">
-                <input className="select-checkbox" type="checkbox" />
+                <input
+                  className="select-checkbox"
+                  type="checkbox"
+                  onChange={() => toggleRead(index)}
+                  checked={email.read} // Reflect read status
+                />
               </div>
               <div className="star">
-                <input className="star-checkbox" type="checkbox" />
+                <input
+                  className="star-checkbox"
+                  type="checkbox"
+                  onChange={() => toggleStar(index)} // Toggle star status
+                  checked={email.starred} // Reflect star status
+                />
               </div>
               <div className="sender">{email.sender}</div>
               <div className="title">{email.title}</div>
