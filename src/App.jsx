@@ -6,11 +6,51 @@ import "./styles/App.css";
 function App() {
   // Add state to hold all emails, it should use initialEmails
   const [emails, setEmails] = useState(initialEmails);
-  console.log(initialEmails);
 
-  const toggleRead = () => {};
+  const toggleRead = (thisEmail) => {
+    // Descripton: Recieve email and set set it's read status to the opposite
+    // Input: email
+    // create new array to store emails
+    const changedEmails = emails.map(function (email) {
+      // iterate through emails state to find input-email
+      if (email === thisEmail) {
+        // update its read status
+        return {
+          ...emails,
+          sender: email.sender,
+          title: email.title,
+          starred: email.starred,
+          read: !email.read,
+        };
+      }
+      return email;
+    });
+    // put new array into setEmails
+    setEmails(changedEmails);
+  };
 
-  const toggleStar = () => {};
+  const toggleStar = (thisEmail) => {
+    // Descripton: Recieve email and set set it's starred status to the oposite
+    // Input: email
+    // create new array to store emails
+    const changedEmails = emails.map(function (email) {
+      // iterate through emails state to find input-email
+      if (email === thisEmail) {
+        // update its starred status
+        return {
+          ...emails,
+          sender: email.sender,
+          title: email.title,
+          starred: !email.starred,
+          read: email.read,
+        };
+      }
+      return email;
+    });
+
+    // put new array into setEmails
+    setEmails(changedEmails);
+  };
   return (
     <div className="app">
       <Header />
@@ -56,6 +96,7 @@ function App() {
                   className="select-checkbox"
                   type="checkbox"
                   checked={email.read}
+                  onChange={() => toggleRead(email)}
                 />
                 <label htmlFor="select-checkbox">{email.read}</label>
               </div>
@@ -64,6 +105,7 @@ function App() {
                   className="star-checkbox"
                   type="checkbox"
                   checked={email.starred}
+                  onChange={() => toggleStar(email)}
                 />
                 <label htmlFor="star-checkbox">{email.starred}</label>
               </div>
