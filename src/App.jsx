@@ -95,7 +95,10 @@ function App() {
       <main className="emails">
         {getEmails().map((email) => {
           return (
-            <div key={email.id} className="email">
+            <div
+              key={email.id}
+              className={"email " + (email.read ? "read" : "unread")}
+            >
               <div className="select">
                 <input
                   className="select-checkbox"
