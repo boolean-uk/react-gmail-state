@@ -9,6 +9,9 @@ function App() {
   console.log(initialEmails)
 
   const [emails, setEmails] = useState(initialEmails)
+  const [showOnlyRead, setShowRead] = useState(false)
+  const [readEmails, setReadEmails] = useState(initialEmails)
+
   const toggleStar = targetEmail =>
     {
         const updatedEmails = emails =>
@@ -28,6 +31,18 @@ function App() {
         )
         setEmails(updatedEmails)
     }
+
+  const toggleShowRead = (event) =>
+  {
+    if (event.target.checked)
+    {
+      const readEmailsArr = emails.filter((email) => email.read === event.target.checked)
+      setReadEmails(readEmailsArr)
+      setShowRead(true)
+    }
+    else
+    {setShowRead(false)}
+  }
 
   return (
     <div className="app">
@@ -54,14 +69,43 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-              // onChange={() => {}}
+              checked={showOnlyRead}
+              onChange={(event) => {toggleShowRead(event)}}
             />
           </li>
         </ul>
       </nav>
       <main className="emails">{/* Render a list of emails here */}
-      {emails.map((email, index) => (
+      {/* List of all emails */}
+      {!showOnlyRead && emails.map((email, index) => (
+        <li
+            key={index}
+            className={`email ${email.read ? 'read' : 'unread'}`}
+        >
+          <div className="select">
+            <input
+              className="select-checkbox"
+              type="checkbox"
+              checked={email.read}
+              onChange={() => toggleRead(email)}
+            />
+          </div>
+          <div className="star">
+            <input
+              className="star-checkbox"
+              type="checkbox"
+              checked={email.starred}
+              onChange={() => toggleStar(email)}
+            />
+          </div>
+          <div className="sender">{email.sender}</div>
+          <div className="title">{email.title}</div>
+      </li>
+      )
+      )}
+
+      {/* List of only read emails */}
+      {showOnlyRead && readEmails.map((email, index) => (
         <li
             key={index}
             className={`email ${email.read ? 'read' : 'unread'}`}
