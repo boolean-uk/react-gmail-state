@@ -3,8 +3,8 @@
 
   display: grid;
   grid-template:
-    'header header' 50px
-    'left-menu emails' 1fr /
+    "header header" 50px
+    "left-menu emails" 1fr /
     180px 1fr;
 }
 
@@ -41,7 +41,7 @@
 }
 
 .app > .left-menu .inbox-list .item.active {
-  background-color: #ff000050;
+  background-color: #0000ff50;
 }
 
 .app > .left-menu .inbox-list .item.toggle {
@@ -52,10 +52,12 @@
   display: grid;
   grid-template-columns: 30px 30px 150px 1fr;
   padding: 10px;
-  background-color: white;
+  background-color: #eeeeff;
   font-size: 0.9rem;
 
   border-bottom: solid 1px #00000020;
+  border-left: solid 1px #00000020;
+  border-right: solid 1px #00000020;
 }
 
 .email:first-child {
@@ -68,7 +70,13 @@
 }
 
 .email.read {
-  background-color: rgb(240, 240, 240);
+  background-color: #afaff0;
+}
+.email.read .title {
+  font-weight: lighter;
+}
+.email.read .sender {
+  font-weight: lighter;
 }
 
 .email.unread {
@@ -79,6 +87,13 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: bold;
+}
+.email .sender {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
 }
 
 .email .star-checkbox {
@@ -94,7 +109,7 @@
 
 .email .star-checkbox:checked::before,
 .email .star-checkbox::before {
-  content: '';
+  content: "";
   background-size: cover;
   width: 20px;
   height: 20px;
