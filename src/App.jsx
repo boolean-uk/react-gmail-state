@@ -9,6 +9,7 @@ function App() {
 	console.log(initialEmails);
 
 	const [emails, setEmails] = useState(initialEmails);
+	const [hideRead, setHideRead] = useState(false);
 
 	const toggleRead = (clickedEmail) => {
 		const updatedEmails = emails.map((email) =>
@@ -27,6 +28,16 @@ function App() {
 
 		setEmails(updatedEmails);
 	};
+
+	const toggleHideRead = () => {
+		setHideRead(!hideRead);
+	};
+
+	let filteredEmails = [...emails];
+
+	hideRead
+		? (filteredEmails = emails.filter((email) => email.read === false))
+		: emails;
 
 	return (
 		<div className="app">
@@ -55,14 +66,16 @@ function App() {
 						<input
 							id="hide-read"
 							type="checkbox"
-							checked={false}
-							// onChange={() => {}}
+							checked={hideRead}
+							onChange={() => {
+								toggleHideRead();
+							}}
 						/>
 					</li>
 				</ul>
 			</nav>
 			<main className="emails">
-				{emails.map((email, index) => {
+				{filteredEmails.map((email, index) => {
 					return (
 						<li
 							className={`email ${email.read ? "read" : "unread"}`}
