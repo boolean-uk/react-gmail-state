@@ -7,8 +7,23 @@ import './styles/App.css'
 function App() {
 
   const [emails, setEmails] = useState(initialEmails)
-  // Use initialEmails for state
-  console.log(initialEmails)
+
+  const toggleRead = target => {
+    const updatedEmails = emails.map(function(email){
+      if (email === target) {
+        return {...email, read: !email.read}
+      }
+      return email
+    })
+    setEmails(updatedEmails)
+  }
+
+  const toggleStarred = target => {
+    const updatedEmails = emails.map(email => 
+      email === target ? {...email, starred: !email.starred} : email
+      )
+    setEmails(updatedEmails)
+  }
 
   return (
     <div className="app">
@@ -45,17 +60,21 @@ function App() {
         {/* Render a list of emails here */}
         <ul>
           {emails.map((email, index) => (
-            <li key={index} className='email'>
+            <li key={index} className={`email${email.read ? ' read' : ' unread'}`}>
               <div className='select'>
                 <input
                   className='select-checkbox' 
                   type='checkbox'
+                  checked={email.read}
+                  onClick={() => toggleRead(email)}
                   />
               </div>
                 <div className='star'>
                   <input
                     className='star-checkbox'
                     type='checkbox'
+                    checked={email.starred}
+                    onClick={() => toggleStarred(email)}
                   />
                 </div>
                 <div className='sender'>{email.sender}</div>
