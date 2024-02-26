@@ -8,6 +8,7 @@ function App() {
 
   const [emails, setEmails] = useState(initialEmails)
   const [hideRead, setHideRead] = useState(false)
+  const [currentTab, setCurrentTab] = useState("")
 
   const getUnreadEmails = emails.filter(email => email.read === false)
 
@@ -15,7 +16,8 @@ function App() {
 
   let filteredEmails = emails
 
-  if(hideRead) filteredEmails = emails.filter(email => email.read === true)
+  if(hideRead) filteredEmails = getUnreadEmails
+  if(currentTab === 'starred') filteredEmails = getStarredEmails
 
   const toggleRead = target => {
     const updatedEmails = emails.map(function(email){
@@ -40,15 +42,15 @@ function App() {
       <nav className="left-menu">
         <ul className="inbox-list">
           <li
-            className="item active"
-          // onClick={() => {}}
+            className={`item ${currentTab === 'inbox' ? ' active' : ''} `}
+            onClick={() => {setCurrentTab("inbox")}}
           >
             <span className="label">Inbox</span>
             <span className="count">{getUnreadEmails.length}</span>
           </li>
           <li
-            className="item"
-          // onClick={() => {}}
+            className={`item ${currentTab === 'starred' ? ' active' : ''} `}
+            onClick={() => setCurrentTab("starred")}
           >
             <span className="label">Starred</span>
             <span className="count">{getStarredEmails.length}</span>
