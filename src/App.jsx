@@ -18,6 +18,18 @@ function App() {
   const unreadEmails = emails.filter((email) => !email.read)
   const starredEmails = emails.filter((email) => email.starred)
 
+  // Extesion2:
+  // If hideRead is checked -> filteredEmails
+ let filteredEmails = [...emails]
+  if(hideRead) {
+    filteredEmails = filteredEmails.filter((email) => !email.read)   // get the emails with read === false
+  }
+
+  // Handle Starred tab:
+  if (currentTab === 'starred') {
+    filteredEmails = filteredEmails.filter((email) => email.starred)  // Get the emails with starred === true
+  }
+
 
   return (
     <div className="app">
@@ -57,7 +69,7 @@ function App() {
       <main className="emails">
         <ul>
           {/* Iterates through each email */}
-          {emails.map((email, index) => (
+          {filteredEmails.map((email, index) => (
             <li 
               // Remember to yuse the "key" attribute when rendering lists in react. 
               // Necessary when rendering lists. Helps React identify which items have changed.
