@@ -7,6 +7,7 @@ function App() {
   // Use initialEmails for state
   const [emails, setEmails] = useState(initialEmails)
   const [hideRead, setHideRead] = useState(false)
+  const [currentTab, setCurrentTab] = useState("inbox")
 
   const toggleStar = (email) => {
     setEmails(emails.map((item) => {
@@ -37,10 +38,17 @@ function App() {
   }
 
   const getFilteredEmails = () => {
-    if (hideRead) {
-      return emails.filter((email) => !email.read)
+    let filtered;
+    if (currentTab === "starred") {
+      filtered = emails.filter((email) => email.starred)
     }
-    return emails
+    else {
+      filtered = emails
+    }
+    if (hideRead) {
+      filtered = filtered.filter((email) => !email.read)
+    }
+    return filtered
   }
 
   return (
@@ -49,18 +57,18 @@ function App() {
       <nav className="left-menu">
         <ul className="inbox-list">
           <li
-            className="item active"
-            onClick={() => { }}
+            className={`item ${currentTab === "inbox" ? "active" : ""}`}
+            onClick={() => { setCurrentTab("inbox") }}
           >
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{emails.length}</span>
           </li>
           <li
-            className="item"
-            onClick={() => { }}
+            className={`item ${currentTab === "starred" ? "active" : ""}`}
+            onClick={() => { setCurrentTab("starred") }}
           >
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count">{emails.filter((email) => email.starred).length}</span>
           </li>
 
           <li className="item toggle">
@@ -90,6 +98,7 @@ function App() {
                 <input
                   className="star-checkbox"
                   type="checkbox"
+                  checked={email.starred}
                   onChange={() => toggleStar(email)}
                 />
               </div>
