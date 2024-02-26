@@ -7,6 +7,30 @@ function App() {
   // Use initialEmails for state
   const [emails, setEmails] = useState(initialEmails)
 
+  const toggleStar = (email) => {
+    setEmails(emails.map((item) => {
+      if (item.id === email.id) {
+        return {
+          ...item,
+          starred: !item.starred
+        }
+      }
+      return item
+    }))
+  }
+
+  const toggleRead = (email) => {
+    setEmails(emails.map((item) => {
+      if (item.id === email.id) {
+        return {
+          ...item,
+          read: !item.read
+        }
+      }
+      return item
+    }))
+  }
+
   return (
     <div className="app">
       <Header />
@@ -47,12 +71,14 @@ function App() {
                 <input
                   className="select-checkbox"
                   type="checkbox"
+                  onChange={() => toggleRead(email)}
                 />
               </div>
               <div className="star">
                 <input
                   className="star-checkbox"
                   type="checkbox"
+                  onChange={() => toggleStar(email)}
                 />
               </div>
               <div className="sender">
