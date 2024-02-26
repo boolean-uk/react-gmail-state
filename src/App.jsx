@@ -5,6 +5,8 @@ import './styles/App.css'
 
 function App() {
   const [emails, setEmails] = useState(initialEmails)
+  const [filteredEmails, setFilteredEmails] = useState(emails)
+  const [hideRead, setHideRead] = useState(false)
 
   const toggleRead = (email) => {
     setEmails(emails.map((e) => 
@@ -17,6 +19,16 @@ function App() {
       e === email ? {...e, starred: !e.starred} : e
     ))
   }
+
+  useEffect(() => {
+    let filteredEmails = emails
+
+    if (hideRead) {
+      filteredEmails = filteredEmails.filter(e => e.read !== hideRead)
+    }  
+
+    setFilteredEmails(filteredEmails)
+  }, [emails, hideRead])
 
   // Just to verify the changes to the actual state occurs
   useEffect(() => {
@@ -48,27 +60,36 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
+              checked={hideRead}
               readOnly
-              // onChange={() => {}}
+              onChange={() => setHideRead(!hideRead)}
             />
           </li>
         </ul>
       </nav>
       <main className="emails">
         <ul>
-          {emails.map((email, index) => {
-            return(
+          {filteredEmails.map((email, index) => 
               <li key={index}>
                   <div className={email.read ? 'email read' : 'email unread'}>
-                  <input className="read" type="checkbox" checked={email.read} onChange={() => toggleRead(email)}/>
-                  <input className="star-checkbox" type="checkbox" checked={email.starred} onChange={() => toggleStar(email)}/>
+                  <input 
+                    className="read" 
+                    type="checkbox" 
+                    checked={email.read} 
+                    onChange={() => toggleRead(email)}
+                  />
+                  <input 
+                    className="star-checkbox" 
+                    type="checkbox" 
+                    checked={email.starred} 
+                    onChange={() => toggleStar(email)}
+                  />
                   <p>{email.sender}</p>
                   <p>{email.title}</p>
                 </div>
               </li>
             )
-          })}
+          }
         </ul>
       </main>
     </div>
