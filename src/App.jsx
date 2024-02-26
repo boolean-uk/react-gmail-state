@@ -3,6 +3,25 @@ import initialEmails from './data/emails'
 
 import './styles/App.css'
 
+const renderEmail = (email) => {
+  return (
+    <li className="email">
+      <div className="select">
+        <input className="select-checkbox" type="checkbox" />
+      </div>
+      <div className="star">
+        <input className="star-checkbox" type="checkbox" />
+      </div>
+      <div className="sender">
+        {email.sender}
+      </div>
+      <div className="title">
+        {email.title}
+      </div>
+    </li>
+  );
+}
+
 function App() {
   // Use initialEmails for state
   console.log(initialEmails)
@@ -10,6 +29,7 @@ function App() {
   return (
     <div className="app">
       <Header />
+
       <nav className="left-menu">
         <ul className="inbox-list">
           <li
@@ -38,7 +58,14 @@ function App() {
           </li>
         </ul>
       </nav>
-      <main className="emails">{/* Render a list of emails here */}</main>
+
+      <main className="emails">
+        {initialEmails.map((email, index) => (
+          <div key={index}>
+            {renderEmail(email)}
+          </div>
+        ))}
+      </main>
     </div>
   )
 }
