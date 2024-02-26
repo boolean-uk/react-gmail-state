@@ -18,7 +18,7 @@ const ContentArea = (emails, setEmails) => {
 
 const RenderEmail = (emails, setEmails, email) => {
   return (
-    <li className="email">
+    <li className={`email ${email.read ? "read" : "unread"}`}>
       <div className="select">
         <input
           className="select-checkbox"
@@ -41,23 +41,23 @@ const RenderEmail = (emails, setEmails, email) => {
   );
 };
 
-const LeftMenu = (hideRead, setHideRead) => {
+const LeftMenu = (currentTab, setCurrentTab, hideRead, setHideRead, numUnreadEmails, numStarredEmails) => {
   return (
     <nav className="left-menu">
       <ul className="inbox-list">
         <li
-          className="item active"
-          // onClick={() => {}}
+          className={`item ${currentTab === 'inbox' ? "active" : null}`}
+          onClick={() => {setCurrentTab('inbox')}}
         >
           <span className="label">Inbox</span>
-          <span className="count">?</span>
+          <span className="count">{numUnreadEmails}</span>
         </li>
         <li
-          className="item"
-          // onClick={() => {}}
+          className={`item ${currentTab=== 'starred' ? "active" : null}`}
+          onClick={() => {setCurrentTab('starred')}}
         >
           <span className="label">Starred</span>
-          <span className="count">?</span>
+          <span className="count">{numStarredEmails}</span>
         </li>
 
         <li className="item toggle">
@@ -89,22 +89,38 @@ const ToggleStar = (emails, setEmails, email) => {
 function App() {
   const [emails, setEmails] = useState(initialEmails)
   const [filteredEmails, setFilteredEmails] = useState(emails)
+  const [currentTab, setCurrentTab] = useState('inbox')
   const [hideRead, setHideRead] = useState(false)
 
   useEffect(() => {
-    let updatedFilteredEmails = emails;
+    setFilteredEmails(emails);
+  }, [emails, hideRead, currentTab])
 
-    if (hideRead)
-      updatedFilteredEmails = updatedFilteredEmails.filter(email => !email.read)
-
-    setFilteredEmails(updatedFilteredEmails)
-  }, [emails, hideRead])
+  useEffect(() => {
+    if (currentTab === 'starred') {
+      setFilteredEmails(prevFilteredEmails => {
+        const updatedFilteredEmails = prevFilteredEmails.filter(email => email.starred);
+        return updatedFilteredEmails;
+      });
+    }
+  }, [currentTab]);
   
+
+  useEffect(() => {
+    if (hideRead){
+      const updatedFilteredEmails = filteredEmails.filter((email) => !email.read);
+      setFilteredEmails(updatedFilteredEmails);
+    }
+  }, [hideRead])
+  
+  const numUnreadEmails = emails.filter(email => email.read !== true).length;
+  const numStarredEmails = emails.filter(email => email.starred !== true).length;
+
   return (
     <div className="app">
       <Header />
 
-      {LeftMenu(hideRead, setHideRead)}
+      {LeftMenu(currentTab, setCurrentTab, hideRead, setHideRead, numUnreadEmails, numStarredEmails)}
 
       {ContentArea(filteredEmails, setEmails)}
       
