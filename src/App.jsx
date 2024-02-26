@@ -3,13 +3,21 @@ import Header from './components/Header'
 import initialEmails from './data/emails'
 
 import './styles/App.css'
+import {ToggleRead, ToggleStar} from './functions/Functions.jsx'
 
 function App() {
   // Use initialEmails for state
-  console.log(initialEmails)
+  console.log(initialEmails)    // Why rendering 2 times???
   const [emails, setEmails] = useState(initialEmails)
   const [currentTab, setCurrentTab] = useState('inbox')   // Which tab in the sidebar
   const [hideRead, setHideRead] = useState(false)         // Read or unread?
+
+
+  // Extension1:
+  // Filtering read/unread & starred/unstarred
+  const unreadEmails = emails.filter((email) => !email.read)
+  const starredEmails = emails.filter((email) => email.starred)
+
 
   return (
     <div className="app">
@@ -21,7 +29,7 @@ function App() {
             onClick={(e) => {setCurrentTab('inbox')}}
           >
             <span className="label">Inbox</span>
-            <span className="count">{emails.length}</span>
+            <span className="count">{unreadEmails.length}</span>
           </li>
 
           <li
@@ -29,7 +37,7 @@ function App() {
             onClick={(e) => {setCurrentTab('starred')}}
           >
             <span className="label">Starred</span>
-            <span className="count">{emails.length}</span>
+            <span className="count">{starredEmails.length}</span>
           </li>
 
           <li className="item toggle">
@@ -51,29 +59,35 @@ function App() {
           {/* Iterates through each email */}
           {emails.map((email, index) => (
             <li 
-            key={index}
-            className="email">
+              // Remember to yuse the "key" attribute when rendering lists in react. 
+              // Necessary when rendering lists. Helps React identify which items have changed.
+              key={index}   
+              className={`email ${email.read ? 'read' : 'unread'}`}>
 
-              {/* Select check box */}
-            <div className="select">
-              <input
-                  className="select-checkbox"
+                {/* Select check box */}
+              <div className="select">
+                <input
+                    className="select-checkbox"
+                    type="checkbox"
+                    checked={email.read}      // Determined if the checkbox is checked or not -> the attribute = checked if true and v.v.
+                    onChange={() => {ToggleRead({emails, setEmails,  target: email})} }   // Handling toggleRead
+                />
+              </div>
+              
+              {/* Star check box */}
+              <div className="star">
+                <input
+                  className="star-checkbox"
                   type="checkbox"
-              />
-            </div>
-            
-            {/* Star check box */}
-            <div className="star">
-              <input
-                className="star-checkbox"
-                type="checkbox"
-              />
-            </div>
+                  checked={email.starred} 
+                  onChange={(e) => {ToggleStar({emails, setEmails, target: email})} }   // Handling toggleStar
+                />
+              </div>
 
-             {/* Display sender and title */} 
-            <div className="sender">{email.sender}</div>
-            <div className="title">{email.title}</div>
-        
+              {/* Display sender and title */} 
+              <div className="sender">{email.sender}</div>
+              <div className="title">{email.title}</div>
+          
           </li>     
           
           ))}
