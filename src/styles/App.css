@@ -8,6 +8,7 @@
     180px 1fr;
 }
 
+
 .app > .emails {
   grid-area: emails;
   padding: 10px 0;
@@ -108,4 +109,68 @@
 
 .email .star-checkbox:checked::before {
   background-image: url(https://www.gstatic.com/images/icons/material/system/2x/star_googyellow500_20dp.png);
+}
+/* Dark Mode Styles */
+
+/* Overall background and text color */
+body {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+/* Header */
+.app > .header {
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #000000;
+}
+
+/* Left menu */
+.app > .left-menu {
+  background-color: #212121;
+}
+
+/* Inbox list item */
+.app > .left-menu .inbox-list .item {
+  background-color: #212121;
+}
+
+.app > .left-menu .inbox-list .item.active {
+  background-color: #ff000050; /* Maintain active item color */
+}
+
+/* Email list */
+.app > .emails {
+  background-color: #212121;
+}
+
+/* Email item */
+.email {
+  background-color: #333333; /* Darker background for email items */
+  border-bottom: solid 1px #00000050; /* Lighter border color */
+}
+
+.email:first-child {
+  border-top: solid 1px #00000050; /* Lighter border color for first email */
+}
+
+.email:hover {
+  box-shadow: -1px 1px 2px 0 #c2303040; /* Lighter shadow on hover */
+}
+
+/* Read and unread email styles */
+.email.read {
+  background-color: #444444; /* Slightly darker background for read emails */
+}
+
+.email.unread {
+  font-weight: bold;
+}
+
+/* Star icon styles */
+.email .star-checkbox::before {
+  background-image: url(https://www.gstatic.com/images/icons/material/system/2x/star_border_white_20dp.png); /* White star icon for unchecked */
+}
+
+.email .star-checkbox:checked::before {
+  background-image: url(https://www.gstatic.com/images/icons/material/system/2x/star_googyellow500_white_20dp.png); /* White star icon for checked */
 }

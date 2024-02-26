@@ -80,7 +80,7 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
+              checked={hideRead}
               // onChange={() => {}}
               onChange={() => { hideReadEmails() }}
             />
