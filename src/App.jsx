@@ -35,11 +35,6 @@ function App() {
     setFilteredEmails(filteredEmails)
   }, [emails, hideRead, starredOnly])
 
-  // Just to verify the changes to the actual state occurs
-  useEffect(() => {
-    console.log(emails)
-  }, [emails])
-
   return (
     <div className="app">
       <Header />
