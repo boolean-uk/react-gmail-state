@@ -50,7 +50,7 @@
 
 .email {
   display: grid;
-  grid-template-columns: 30px 30px 150px 1fr;
+  grid-template-columns: 100px 100px 1fr 1fr; /*30px 30px 150px 1fr;*/
   padding: 10px;
   background-color: white;
   font-size: 0.9rem;
@@ -109,3 +109,14 @@
 .email .star-checkbox:checked::before {
   background-image: url(https://www.gstatic.com/images/icons/material/system/2x/star_googyellow500_20dp.png);
 }
+
+.star-checkbox-checked{
+  content: url(https://www.gstatic.com/images/icons/material/system/2x/star_googyellow500_20dp.png);
+  width: 20px;
+}
+
+.star-checkbox-unchecked{
+  content: url(https://www.gstatic.com/images/icons/material/system/2x/star_border_black_20dp.png);
+  width: 20px;
+}
+
