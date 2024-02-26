@@ -85,7 +85,7 @@ function App() {
                 <input
                   className="star-checkbox"
                   type="checkbox"
-                  checked={email.star}
+                  checked={email.star || false}
                   onChange={() => toggleStar(email)}
                 />
               </div>
