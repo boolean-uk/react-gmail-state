@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Header from './components/Header'
 // import emails from './data/emails';
@@ -6,7 +6,7 @@ import initialEmails from './data/emails'
 
 import './styles/App.css'
 
-const RenderEmails = (emails, setEmails) => {
+const ContentArea = (emails, setEmails) => {
   return (
     <main className="emails">
       {emails.map((email, index) => (
@@ -24,7 +24,7 @@ const RenderEmail = (emails, setEmails, email) => {
           className="select-checkbox"
           type="checkbox"
           checked={email.read}
-          onClick={() => ToggleRead(emails, setEmails, email)}
+          onChange={() => ToggleRead(emails, setEmails, email)}
         />
       </div>
       <div className="star">
@@ -32,7 +32,7 @@ const RenderEmail = (emails, setEmails, email) => {
           className="star-checkbox"
           type="checkbox"
           checked={email.starred}
-          onClick={() => ToggleStar(emails, setEmails, email)}
+          onChange={() => ToggleStar(emails, setEmails, email)}
         />
       </div>
       <div className="sender">{email.sender}</div>
@@ -40,6 +40,41 @@ const RenderEmail = (emails, setEmails, email) => {
     </li>
   );
 };
+
+const LeftMenu = (hideRead, setHideRead) => {
+  return (
+    <nav className="left-menu">
+      <ul className="inbox-list">
+        <li
+          className="item active"
+          // onClick={() => {}}
+        >
+          <span className="label">Inbox</span>
+          <span className="count">?</span>
+        </li>
+        <li
+          className="item"
+          // onClick={() => {}}
+        >
+          <span className="label">Starred</span>
+          <span className="count">?</span>
+        </li>
+
+        <li className="item toggle">
+          <label htmlFor="hide-read">Hide read</label>
+          <input
+            id="hide-read"
+            type="checkbox"
+            checked={hideRead}
+            onChange={(e) => {
+              setHideRead(e.target.checked);
+            }}
+          />
+        </li>
+      </ul>
+    </nav>
+  );
+}
 
 const ToggleRead = (emails, setEmails, email) => {
   const updatedEmails = emails.map(e => e.id === email.id ? {...e,read: !e.read} : e)
@@ -53,41 +88,25 @@ const ToggleStar = (emails, setEmails, email) => {
 
 function App() {
   const [emails, setEmails] = useState(initialEmails)
+  const [filteredEmails, setFilteredEmails] = useState(emails)
+  const [hideRead, setHideRead] = useState(false)
 
+  useEffect(() => {
+    let updatedFilteredEmails = emails;
+
+    if (hideRead)
+      updatedFilteredEmails = updatedFilteredEmails.filter(email => !email.read)
+
+    setFilteredEmails(updatedFilteredEmails)
+  }, [emails, hideRead])
+  
   return (
     <div className="app">
       <Header />
 
-      <nav className="left-menu">
-        <ul className="inbox-list">
-          <li
-            className="item active"
-            // onClick={() => {}}
-          >
-            <span className="label">Inbox</span>
-            <span className="count">?</span>
-          </li>
-          <li
-            className="item"
-            // onClick={() => {}}
-          >
-            <span className="label">Starred</span>
-            <span className="count">?</span>
-          </li>
+      {LeftMenu(hideRead, setHideRead)}
 
-          <li className="item toggle">
-            <label for="hide-read">Hide read</label>
-            <input
-              id="hide-read"
-              type="checkbox"
-              checked={false}
-              // onChange={() => {}}
-            />
-          </li>
-        </ul>
-      </nav>
-
-      {RenderEmails(emails, setEmails)}
+      {ContentArea(filteredEmails, setEmails)}
       
     </div>
   )
