@@ -1,11 +1,27 @@
-import Header from './components/Header'
-import initialEmails from './data/emails'
+import { useState } from "react";
+import Header from "./components/Header";
+import initialEmails from "./data/emails";
 
-import './styles/App.css'
+import "./styles/App.css";
 
 function App() {
   // Use initialEmails for state
-  console.log(initialEmails)
+  const [emails, setEmails] = useState(initialEmails);
+  console.log(emails);
+
+  const toggleStar = (targetEmail) => {
+    const updatedEmails = emails.map((email) =>
+      email === targetEmail ? { ...email, star: !email.star } : email
+    );
+    setEmails(updatedEmails);
+  };
+
+  const toggleRead = (targetEmail) => {
+    const updatedEmails = emails.map((email) =>
+      email === targetEmail ? { ...email, read: !email.read } : email
+    );
+    setEmails(updatedEmails);
+  };
 
   return (
     <div className="app">
@@ -28,7 +44,7 @@ function App() {
           </li>
 
           <li className="item toggle">
-            <label for="hide-read">Hide read</label>
+            <label htmlFor="hide-read">Hide read</label>
             <input
               id="hide-read"
               type="checkbox"
@@ -38,9 +54,37 @@ function App() {
           </li>
         </ul>
       </nav>
-      <main className="emails">{/* Render a list of emails here */}</main>
+      <main className="emails">
+        <ul>
+          {emails.map((email, index) => (
+            <li
+              className={`email ${email.read ? "read" : "unread"}`}
+              key={index}
+            >
+              <div className="select">
+                <input
+                  className="select-checkbox"
+                  type="checkbox"
+                  checked={email.read}
+                  onChange={() => toggleRead(email)}
+                />
+              </div>
+              <div className="star">
+                <input
+                  className="star-checkbox"
+                  type="checkbox"
+                  checked={email.star}
+                  onChange={() => toggleStar(email)}
+                />
+              </div>
+              <div className="sender">{email.sender}</div>
+              <div className="title">{email.title}</div>
+            </li>
+          ))}
+        </ul>
+      </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
