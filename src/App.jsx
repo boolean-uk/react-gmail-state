@@ -105,11 +105,12 @@ function App() {
     }
   }, [currentTab]);
   
-
   useEffect(() => {
     if (hideRead){
-      const updatedFilteredEmails = filteredEmails.filter((email) => !email.read);
-      setFilteredEmails(updatedFilteredEmails);
+      setFilteredEmails(prevFilteredEmails => {
+        const updatedFilteredEmails = prevFilteredEmails.filter(email => !email.read);
+        return updatedFilteredEmails;
+      });
     }
   }, [hideRead])
   
