@@ -7,6 +7,7 @@ function App() {
   const [emails, setEmails] = useState(initialEmails)
   const [filteredEmails, setFilteredEmails] = useState(emails)
   const [hideRead, setHideRead] = useState(false)
+  const [starredOnly, setStarredOnly] = useState(false)
 
   const toggleRead = (email) => {
     setEmails(emails.map((e) => 
@@ -27,8 +28,12 @@ function App() {
       filteredEmails = filteredEmails.filter(e => e.read !== hideRead)
     }  
 
+    if (starredOnly) {
+      filteredEmails = filteredEmails.filter(e => e.starred === starredOnly)
+    }
+
     setFilteredEmails(filteredEmails)
-  }, [emails, hideRead])
+  }, [emails, hideRead, starredOnly])
 
   // Just to verify the changes to the actual state occurs
   useEffect(() => {
@@ -41,15 +46,15 @@ function App() {
       <nav className="left-menu">
         <ul className="inbox-list">
           <li
-            className="item active"
-            // onClick={() => {}}
+            className={starredOnly ? 'item' : 'item active'}
+            onClick={() => {setStarredOnly(false)}}
           >
             <span className="label">Inbox</span>
             <span className="count">{emails.filter(email => !email.read).length}</span>
           </li>
           <li
-            className="item"
-            // onClick={() => {}}
+            className={starredOnly ? 'item active' : 'item'}
+            onClick={() => {setStarredOnly(true)}}
           >
             <span className="label">Starred</span>
             <span className="count">{emails.filter(email => email.starred).length}</span>
@@ -61,7 +66,6 @@ function App() {
               id="hide-read"
               type="checkbox"
               checked={hideRead}
-              readOnly
               onChange={() => setHideRead(!hideRead)}
             />
           </li>
