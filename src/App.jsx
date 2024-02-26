@@ -6,6 +6,7 @@ import './styles/App.css'
 function App() {
   // Use initialEmails for state
   const [emails, setEmails] = useState(initialEmails)
+  const [hideRead, setHideRead] = useState(false)
 
   const toggleStar = (email) => {
     setEmails(emails.map((item) => {
@@ -29,6 +30,17 @@ function App() {
       }
       return item
     }))
+  }
+
+  const hideReadEmails = () => {
+    setHideRead(!hideRead)
+  }
+
+  const getFilteredEmails = () => {
+    if (hideRead) {
+      return emails.filter((email) => !email.read)
+    }
+    return emails
   }
 
   return (
@@ -57,7 +69,7 @@ function App() {
               id="hide-read"
               type="checkbox"
               checked={false}
-              onChange={() => { }}
+              onChange={() => { hideReadEmails() }}
             />
           </li>
         </ul>
@@ -65,7 +77,7 @@ function App() {
       <main className="emails">
         {
           /* Render a list of emails here */
-          emails.map((email, _) => (
+          getFilteredEmails().map((email, _) => (
             < li key={email.id} className={`email ${email.read ? "read" : "unread"}`} >
               <div className="select">
                 <input
