@@ -7,6 +7,15 @@ import './styles/App.css'
 function App() {
 
   const [emails, setEmails] = useState(initialEmails)
+  const [hideRead, setHideRead] = useState(false)
+
+  const getUnreadEmails = emails.filter(email => email.read === false)
+
+  const getStarredEmails = emails.filter(email => email.starred === true)
+
+  let filteredEmails = emails
+
+  if(hideRead) filteredEmails = emails.filter(email => email.read === true)
 
   const toggleRead = target => {
     const updatedEmails = emails.map(function(email){
@@ -35,14 +44,14 @@ function App() {
           // onClick={() => {}}
           >
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{getUnreadEmails.length}</span>
           </li>
           <li
             className="item"
           // onClick={() => {}}
           >
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count">{getStarredEmails.length}</span>
           </li>
 
           <li className="item toggle">
@@ -50,8 +59,8 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-            // onChange={() => {}}
+              checked={hideRead}
+              onChange={() => setHideRead(!hideRead)}
             />
           </li>
         </ul>
@@ -59,7 +68,7 @@ function App() {
       <main className="emails">
         {/* Render a list of emails here */}
         <ul>
-          {emails.map((email, index) => (
+          {filteredEmails.map((email, index) => (
             <li key={index} className={`email${email.read ? ' read' : ' unread'}`}>
               <div className='select'>
                 <input
