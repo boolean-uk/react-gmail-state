@@ -13,13 +13,12 @@ function App() {
   const [view, setView] = useState("default")
 
   const star = (target) => {
-
-    let alteredEmails = emails.map(function(email) {
-      if ( email == target) return { ...email, starred: !email.starred}
-      return email
-    })
-
-    setEmails(alteredEmails)
+    setEmails( 
+      emails.map(function(email) {
+        if ( email == target) return { ...email, starred: !email.starred}
+        return email
+      })
+    )
   }
 
   const read = (target) => {
@@ -32,13 +31,9 @@ function App() {
   }
 
   const showEmails = () => {
-    let relevant =  emails.filter(email => !hideRead || !email.read)
-    switch(view){
-      case("starred"):
-        return relevant.filter(email => email.starred)
-      default:
-        return relevant
-    }
+    let relevant =  emails.filter(email => (!hideRead || !email.read) && 
+                                  (view != "starred" || email.starred))
+    return relevant;
   }
 
   return (
