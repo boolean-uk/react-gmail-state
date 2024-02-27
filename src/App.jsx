@@ -32,7 +32,9 @@ function App() {
             <span className="count">{emails.filter(email => email.starred).length}</span>
           </li>
 
-          <li className="item toggle">
+          <li className="item toggle"
+            onClick={() => { setHideRead(!hideRead) }}
+          >
             <label form="hide-read">Hide read</label>
             <input
               id="hide-read"
