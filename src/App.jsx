@@ -4,12 +4,17 @@ import initialEmails from "./data/emails";
 
 import "./styles/App.css";
 
+const getStarredEmails = (emails) => emails.filter((email) => email.starred);
+
 function App() {
   // Use initialEmails for state
   console.log(initialEmails);
   const [emails, setEmails] = useState(initialEmails);
   const [hideRead, setHideRead] = useState(false);
   const [currentTab, setCurrentTab] = useState("inbox");
+
+  const unreadEmails = emails.filter((email) => !email.read);
+  const starredEmails = emails.filter((email) => email.starred);
 
   const toggleRead = (targetEmail) => {
     const updateEmails = (emails) =>
@@ -29,18 +34,15 @@ function App() {
     setEmails(updateEmails);
   };
 
-  const handleTabChange = (tab) => setCurrentTab(tab);
+  const getReadEmails = (emails) =>
+    hideRead ? emails.filter((email) => !email.read) : emails;
 
-  const getFilteredEmails = () => {
-    switch (currentTab) {
-      case "inbox":
-        return emails.filter((email) => !email.starred);
-      case "starred":
-        return emails.filter((email) => email.starred);
-      default:
-        return emails;
-    }
-  };
+  let filteredEmails = emails;
+
+  if (hideRead) filteredEmails = getReadEmails(filteredEmails);
+
+  if (currentTab === "starred")
+    filteredEmails = getStarredEmails(filteredEmails);
 
   return (
     <div className="app">
@@ -49,17 +51,17 @@ function App() {
         <ul className="inbox-list">
           <li
             className={`item ${currentTab === "inbox" ? "active" : ""}`}
-            onClick={() => handleTabChange("inbox")}
+            onClick={() => setCurrentTab("inbox")}
           >
             <span className="label">Inbox</span>
-            <span className="count">{getFilteredEmails().length}</span>
+            <span className="count">{unreadEmails.length}</span>
           </li>
           <li
             className={`item ${currentTab === "starred" ? "active" : ""}`}
-            onClick={() => handleTabChange("starred")}
+            onClick={() => setCurrentTab("starred")}
           >
             <span className="label">Starred</span>
-            <span className="count">{getFilteredEmails().length}</span>
+            <span className="count">{starredEmails.length}</span>
           </li>
 
           <li className="item toggle">
@@ -67,14 +69,14 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
+              checked={hideRead}
               onChange={() => setHideRead(!hideRead)}
             />
           </li>
         </ul>
       </nav>
       <main className="emails">
-        {getFilteredEmails().map((email) => (
+        {filteredEmails.map((email) => (
           <div
             key={email.id}
             className={`email ${email.read ? "read" : "unread"}`}
