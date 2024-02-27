@@ -8,6 +8,39 @@ function App() {
   // Use initialEmails for state
   console.log(initialEmails);
   const [emails, setEmails] = useState(initialEmails);
+  const [hideRead, setHideRead] = useState(false);
+  const [currentTab, setCurrentTab] = useState("inbox");
+
+  const toggleRead = (targetEmail) => {
+    const updateEmails = (emails) =>
+      emails.map((email) =>
+        email.id === targetEmail.id ? { ...email, read: !email.read } : email
+      );
+    setEmails(updateEmails);
+  };
+
+  const toggleStar = (targetEmail) => {
+    const updateEmails = (emails) =>
+      emails.map((email) =>
+        email.id === targetEmail.id
+          ? { ...email, starred: !email.starred }
+          : email
+      );
+    setEmails(updateEmails);
+  };
+
+  const handleTabChange = (tab) => setCurrentTab(tab);
+
+  const getFilteredEmails = () => {
+    switch (currentTab) {
+      case "inbox":
+        return emails.filter((email) => !email.starred);
+      case "starred":
+        return emails.filter((email) => email.starred);
+      default:
+        return emails;
+    }
+  };
 
   return (
     <div className="app">
@@ -15,33 +48,33 @@ function App() {
       <nav className="left-menu">
         <ul className="inbox-list">
           <li
-            className="item active"
-            // onClick={() => {}}
+            className={`item ${currentTab === "inbox" ? "active" : ""}`}
+            onClick={() => handleTabChange("inbox")}
           >
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{getFilteredEmails().length}</span>
           </li>
           <li
-            className="item"
-            // onClick={() => {}}
+            className={`item ${currentTab === "starred" ? "active" : ""}`}
+            onClick={() => handleTabChange("starred")}
           >
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count">{getFilteredEmails().length}</span>
           </li>
 
           <li className="item toggle">
-            <label for="hide-read">Hide read</label>
+            <label htmlFor="hide-read">Hide read</label>
             <input
               id="hide-read"
               type="checkbox"
               checked={false}
-              // onChange={() => {}}
+              onChange={() => setHideRead(!hideRead)}
             />
           </li>
         </ul>
       </nav>
       <main className="emails">
-        {emails.map((email) => (
+        {getFilteredEmails().map((email) => (
           <div
             key={email.id}
             className={`email ${email.read ? "read" : "unread"}`}
@@ -50,15 +83,19 @@ function App() {
               <input
                 type="checkbox"
                 checked={email.selected}
-                onChange={() => {}}
+                onChange={() => {
+                  toggleRead(email);
+                }}
               />
             </div>
-            <div class="star">
+            <div className="star">
               <input
                 className="star-checkbox"
                 type="checkbox"
-                checked0={email.starred}
-                onChange={() => {}}
+                checked={email.starred}
+                onChange={() => {
+                  toggleStar(email);
+                }}
               />
             </div>
 
