@@ -8,6 +8,7 @@ function App() {
   const [filteredEmails, setFilteredEmails] = useState(emails)
   const [hideRead, setHideRead] = useState(false)
   const [starredOnly, setStarredOnly] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
 
   const toggleRead = (email) => {
     setEmails(emails.map((e) => 
@@ -32,12 +33,16 @@ function App() {
       filteredEmails = filteredEmails.filter(e => e.starred === starredOnly)
     }
 
+    if (searchQuery !== "") {
+      filteredEmails = filteredEmails.filter(e => e.title.toLowerCase().includes(searchQuery) || e.sender.toLowerCase().includes(searchQuery))
+    }
+
     setFilteredEmails(filteredEmails)
-  }, [emails, hideRead, starredOnly])
+  }, [emails, hideRead, starredOnly, searchQuery])
 
   return (
     <div className="app">
-      <Header />
+      <Header setSearchQuery={setSearchQuery}/>
       <nav className="left-menu">
         <ul className="inbox-list">
           <li

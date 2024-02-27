@@ -1,6 +1,8 @@
 import '../styles/Header.css'
 
-function Header() {
+// eslint-disable-next-line react/prop-types
+function Header({setSearchQuery}) {
+
   return (
     <header className="header">
       <div className="left-menu">
@@ -15,7 +17,7 @@ function Header() {
       </div>
 
       <div className="search">
-        <input className="search-bar" placeholder="Search mail" />
+        <input className="search-bar" placeholder="Search mail" onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}/>
       </div>
     </header>
   )
