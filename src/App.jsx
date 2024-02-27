@@ -27,16 +27,13 @@ function App() {
       )
     setEmails(updatedEmails)
   }
-  const getReadEmails = emails => emails.filter(email => !email.read)
-
-  const getStarredEmails = emails => emails.filter(email => email.starred)
 
   let filteredEmails = emails
 
-  if (hideRead) filteredEmails = getReadEmails(filteredEmails)
+  if (hideRead) filteredEmails = emails.filter(email => !email.read)
 
   if (currentTab === 'starred')
-    filteredEmails = getStarredEmails(filteredEmails)
+    filteredEmails = emails.filter(email => email.starred)
 
   return (
     <div className="app">
@@ -44,14 +41,14 @@ function App() {
       <nav className="left-menu">
         <ul className="inbox-list">
           <li
-            className="item active"
+            className={`item ${currentTab === 'inbox' ? 'active' : ''}`}
             onClick={() => setCurrentTab('inbox')}
           >
             <span className="label">Inbox</span>
             <span className="count">{emails.filter(email => !email.read).length}</span>
           </li>
           <li
-            className="item"
+            className={`item ${currentTab === 'starred' ? 'active' : ''}`}
             onClick={() => setCurrentTab('starred')}
           >
             <span className="label">Starred</span>
