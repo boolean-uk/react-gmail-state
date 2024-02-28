@@ -1,12 +1,81 @@
 import Header from './components/Header'
 import initialEmails from './data/emails'
+import { useState } from 'react'
 
 import './styles/App.css'
 
 function App() {
-  // Use initialEmails for state
-  console.log(initialEmails)
+  const [emails, setEmails] = useState(initialEmails)
+  const [hideRead, setHideRead] = useState(false)
+  const [currentTab, setCurrentTab] = useState("")
+  const [inboxCount, setInboxCount] = useState(emails.filter(e => e.read === false).length)
 
+  function getUnreadEmailCount(emailData) {
+    return emailData.filter(email => email.read == false).length;
+  }
+  function getStarredEmailCount(emailData) {
+    return emailData.filter(email => email.starred == true).length;
+  }
+  
+  function toggleStarred(target) {
+    let modifiedEmails = [...emails]
+    let newEmail = modifiedEmails.find(x => x.id == target.id)
+    newEmail.starred = !newEmail.starred
+
+    setEmails(modifiedEmails)
+    console.log(emails)
+  }
+  function toggleRead(target) {
+    let modifiedEmails = [...emails]
+    let newEmail = modifiedEmails.find(x => x.id == target.id)
+    newEmail.read = !newEmail.read
+
+    setEmails(modifiedEmails)
+    setInboxCount(emails.filter(e => e.read === false).length)
+  }
+
+  function emailFilterRead(email){
+    if(hideRead) return email.read == false
+    return true
+  }
+  function emailFilterStarred(email){
+    if(currentTab == "starred") return email.starred == true
+    return true
+  }
+
+  function getEmailItems(){
+    return (
+      emails
+        .filter(e => emailFilterRead(e))
+        .filter(e => emailFilterStarred(e))
+        .map((email, index) => emailItem(email, index))
+    )
+  }
+  function emailItem(emailData, index) {
+    const ClassName = `email ${emailData.read ? 'read' : 'unread'}`
+  
+    return (
+      <li key={index} className={ClassName}>
+        <div className="select">
+  	      <input className="select-checkbox" 
+          type="checkbox"
+          checked={emailData.read}
+          onChange={() => toggleRead(emailData)}
+          />
+        </div>
+        <div className="star">
+  	      <input className="star-checkbox" 
+          type="checkbox" 
+          checked={emailData.starred} 
+          onChange={() => toggleStarred(emailData)}
+          />
+        </div>
+        <div className="sender">{emailData.sender}</div>
+        <div className="title">{emailData.title}</div>
+      </li>
+    )
+  }
+  
   return (
     <div className="app">
       <Header />
@@ -14,17 +83,17 @@ function App() {
         <ul className="inbox-list">
           <li
             className="item active"
-            // onClick={() => {}}
+            onClick={() => setCurrentTab("inbox")}
           >
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{inboxCount}</span>
           </li>
           <li
             className="item"
-            // onClick={() => {}}
+            onClick={() => setCurrentTab("starred")}
           >
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count">{getStarredEmailCount(initialEmails)}</span>
           </li>
 
           <li className="item toggle">
@@ -32,15 +101,16 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-              // onChange={() => {}}
+              checked={hideRead}
+              onChange={() => setHideRead(hideRead ? false : true)}
             />
           </li>
         </ul>
       </nav>
-      <main className="emails">{/* Render a list of emails here */}</main>
+      <main className="emails">{getEmailItems()}</main>
     </div>
   )
+  console.log(emails)
 }
 
 export default App
