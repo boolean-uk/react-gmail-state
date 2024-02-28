@@ -7,7 +7,7 @@ import './styles/App.css'
 function App() {
   const [emails, setEmails] = useState(initialEmails)
   const [displayedEmails, setDisplayedEmails] = useState(initialEmails)
-
+  const [hideRead, setHideRead] = useState(false)
   
   const toggleRead = (targetEmail) => {
     setEmails(emails.map((email) =>
@@ -20,9 +20,12 @@ function App() {
   }
 
   useEffect(() => {
-    let filteredList = emails
-    setDisplayedEmails(filteredList)
-  }, [emails])
+    let filteredEmails = emails
+    if (hideRead) {
+      filteredEmails = filteredEmails.filter(email => !email.read)
+    }
+    setDisplayedEmails(filteredEmails)
+  }, [emails, hideRead])
 
   return (
     <div className="app">
@@ -45,12 +48,12 @@ function App() {
           </li>
 
           <li className="item toggle">
-            <label for="hide-read">Hide read</label>
+            <label htmlFor="hide-read">Hide read</label>
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-              // onChange={() => {}}
+              checked={hideRead}
+              onChange={() => {setHideRead(!hideRead)}}
             />
           </li>
         </ul>
