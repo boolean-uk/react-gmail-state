@@ -72,10 +72,11 @@ function App() {
           </li>
         </ul>
       </nav>
-      <main className="emails">{filteredEmails.map((email) => (
+      <main className="emails">{filteredEmails.map((email, index) => (
       <>
         <li className=
         {`email ${email.read ? 'read' : 'unread'}`}
+        key={index}
         > 
           <div className="select">
           <input
