@@ -3,8 +3,8 @@
 
   display: grid;
   grid-template:
-    'header header' 50px
-    'left-menu emails' 1fr /
+    "header header" 50px
+    "left-menu emails" 1fr /
     180px 1fr;
 }
 
@@ -94,7 +94,7 @@
 
 .email .star-checkbox:checked::before,
 .email .star-checkbox::before {
-  content: '';
+  content: "";
   background-size: cover;
   width: 20px;
   height: 20px;

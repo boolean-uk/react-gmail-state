@@ -1,4 +1,4 @@
-import '../styles/Header.css'
+import "../styles/Header.css";
 
 function Header() {
   return (
@@ -18,7 +18,7 @@ function Header() {
         <input className="search-bar" placeholder="Search mail" />
       </div>
     </header>
-  )
+  );
 }
 
-export default Header
+export default Header;
