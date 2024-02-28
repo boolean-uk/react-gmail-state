@@ -9,13 +9,19 @@ function App() {
   // Use initialEmails for state
   const [emails, setEmails] = useState(initialEmails)
   const [hideRead, setHideRead] = useState(false)
+  const [currentTab, setCurrentTab] = useState('inbox')
 
   const getUnreadEmails = (emails) => {
     return emails.filter((email) => !email.read)
   }
 
+  const getStarredEmails = (emails) => {
+    return emails.filter((email) => email.starred)
+  }
+
   let filteredEmails = emails
   if (hideRead) filteredEmails = getUnreadEmails(emails)
+  if (currentTab === 'starred') filteredEmails = getStarredEmails(emails)
   
   /**
    * Count the amount of unread emails by checking the length of a filtered list
@@ -38,7 +44,7 @@ function App() {
   }
 
   /**
-   * Update an email by setting its read property to its opposite
+   * "Read" an email by setting its read property to its opposite
    * @param {The email to update} email 
    */
   const toggleRead = (email) => {
@@ -48,6 +54,10 @@ function App() {
     setEmails(updatedList)
   }
 
+  /**
+   * Star an email by setting its starred property to its opposite
+   * @param {The email to update} email 
+   */
   const toggleStarred = (email) => {
     const updatedList = emails.map((currentEmail) =>
       currentEmail === email ? {...currentEmail, starred: !currentEmail.starred} : currentEmail
@@ -61,15 +71,15 @@ function App() {
       <nav className="left-menu">
         <ul className="inbox-list">
           <li
-            className="item active"
-            // onClick={() => {}}
+            className={`item ${currentTab === 'inbox' ? 'active' : ''}`}
+            onClick={() => setCurrentTab('inbox')}
           >
             <span className="label">Inbox</span>
             <span className="count">{countUnread()}</span>
           </li>
           <li
-            className="item"
-            // onClick={() => {}}
+            className={`item ${currentTab === 'starred' ? 'active' : ''}`}
+            onClick={() => {setCurrentTab('starred')}}
           >
             <span className="label">Starred</span>
             <span className="count">{countStarred()}</span>
