@@ -8,9 +8,10 @@ function App() {
   const [emails, setEmails] = useState(initialEmails)
   const [displayedEmails, setDisplayedEmails] = useState(initialEmails)
 
-  const toggleRead = (email) => {
-    console.log(email.title)
-    
+  
+  const toggleRead = (targetEmail) => {
+    setEmails(emails.map((email) =>
+    email.id === targetEmail.id ? {...email, read: !email.read} : email))
   }
 
   const toggleStarred = (targetEmail) => {
