@@ -9,6 +9,38 @@ function App() {
   // Use initialEmails for state
   const [emails, setEmails] = useState(initialEmails)
 
+  const filteredEmails = emails
+
+  const countUnread = () => {
+    return emails.filter((email) =>
+      !email.read
+    ).length
+  }
+
+  const countStarred = () => {
+    return emails.filter((email) =>
+      email.starred
+    ).length
+  }
+
+  /**
+   * Update an email by setting its read property to its opposite
+   * @param {The email to update} email 
+   */
+  const toggleRead = (email) => {
+    const updatedList = emails.map((currentEmail) =>
+      currentEmail === email ? {...currentEmail, read: !currentEmail.read} : currentEmail
+    )
+    setEmails(updatedList)
+  }
+
+  const toggleStarred = (email) => {
+    const updatedList = emails.map((currentEmail) =>
+      currentEmail === email ? {...currentEmail, starred: !currentEmail.starred} : currentEmail
+    )
+    setEmails(updatedList)
+  }
+
   return (
     <div className="app">
       <Header />
@@ -19,14 +51,14 @@ function App() {
             // onClick={() => {}}
           >
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{countUnread()}</span>
           </li>
           <li
             className="item"
             // onClick={() => {}}
           >
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count">{countStarred()}</span>
           </li>
 
           <li className="item toggle">
@@ -40,7 +72,7 @@ function App() {
           </li>
         </ul>
       </nav>
-      <main className="emails">{emails.map((email) => (
+      <main className="emails">{filteredEmails.map((email) => (
       <>
         <li className=
         {`email ${email.read ? 'read' : 'unread'}`}
@@ -49,13 +81,16 @@ function App() {
           <input
             className="select-checkbox"
             type="checkbox"
-            checked={email.read}/>
+            checked={email.read}
+            onClick={() => toggleRead(email)}
+            />
           </div>
           <div className="star">
           <input
             className="star-checkbox"
             type="checkbox"
             checked={email.starred}
+            onClick={() => toggleStarred(email)}
           />
           </div>
           <div className="sender">{email.sender}</div>
