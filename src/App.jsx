@@ -3,10 +3,17 @@ import Header from './components/Header'
 import initialEmails from './data/emails'
 
 import './styles/App.css'
+const getReadEmails = emails => emails.filter(email => !email.read)
+const getStarredEmails = emails => emails.filter(email => email.starred)
 
 function App() {
   // Use initialEmails for state
   const [emails, setEmails] = useState(initialEmails)
+  const [hideRead, setHideRead] = useState(false)
+  const [currentTab, setCurrentTab] = useState('inbox')
+
+  const unreadEmails = emails.filter(email => !email.read)
+  const starredEmails = emails.filter(email => email.starred)
 
   const toggleRead = (targetEmail) => {
     const updatedEmails = emails =>
@@ -25,40 +32,48 @@ function App() {
 
   } 
   
+
+  let filteredEmails = emails
+
+  if (hideRead) filteredEmails = getReadEmails(filteredEmails)
+
+  if (currentTab === 'starred')
+    filteredEmails = getStarredEmails(filteredEmails)
+
   return (
     <div className="app">
       <Header />
       <nav className="left-menu">
         <ul className="inbox-list">
           <li
-            className="item active"
-            // onClick={() => {}}
+            className={`item ${currentTab === 'inbox' ? 'active' : ''}`}
+            onClick={() => {setCurrentTab('inbox')} }
           >
             <span className="label">Inbox</span>
-            <span className="count">?</span>
+            <span className="count">{unreadEmails.length}</span>
           </li>
           <li
-            className="item"
-            // onClick={() => {}}
+            className={`item ${currentTab === 'starred' ? 'active' : ''}`}
+            onClick={() => {setCurrentTab('starred')}}
           >
             <span className="label">Starred</span>
-            <span className="count">?</span>
+            <span className="count">{starredEmails.length}</span>
           </li>
 
           <li className="item toggle">
-            <label for="hide-read">Hide read</label>
+            <label htmlFor="hide-read">Hide read</label>
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-              // onChange={() => {}}
+              checked={hideRead}
+              onChange={(e) => {setHideRead(e.target.checked)}}
             />
           </li>
         </ul>
       </nav>
       <main className="emails">{
         <ul>
-          {emails.map((email, index) => (
+          {filteredEmails.map((email, index) => (
             <li
               key={index}
               className={`email ${email.read ? 'read' : 'unread'}`}
