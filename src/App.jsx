@@ -5,7 +5,21 @@ import initialEmails from "./data/emails";
 import "./styles/App.css";
 
 function App() {
-  const [emails] = useState(initialEmails);
+  const [emails, setEmails] = useState(initialEmails);
+
+  const toggleRead = (target) => {
+    const updatedEmails = emails.map((email) =>
+      email.id === target.id ? { ...email, read: !email.read } : email
+    );
+    setEmails(updatedEmails);
+  };
+
+  const toggleStar = (target) => {
+    const updatedEmails = emails.map((email) =>
+      email.id === target.id ? { ...email, starred: !email.starred } : email
+    );
+    setEmails(updatedEmails);
+  };
 
   return (
     <div className="app">
@@ -46,10 +60,20 @@ function App() {
               key={index}
             >
               <div className="select">
-                <input className="select-checkbox" type="checkbox" />
+                <input
+                  className="select-checkbox"
+                  type="checkbox"
+                  checked={email.read}
+                  onClick={() => toggleRead(email)}
+                />
               </div>
               <div className="star">
-                <input className="star-checkbox" type="checkbox" />
+                <input
+                  className="star-checkbox"
+                  type="checkbox"
+                  checked={email.starred}
+                  onClick={() => toggleStar(email)}
+                />
               </div>
               <div className="sender">{email.sender}</div>
               <div className="title">{email.title}</div>
