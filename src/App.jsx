@@ -7,6 +7,7 @@ import './styles/App.css'
 function App() {
   const [emails, setEmails] = useState(initialEmails)
   const [hideRead, setHideRead] = useState(false)
+  const [currentTab, setCurrentTab] = useState("")
   const [inboxCount, setInboxCount] = useState(emails.filter(e => e.read === false).length)
 
   function getUnreadEmailCount(emailData) {
@@ -22,6 +23,7 @@ function App() {
     newEmail.starred = !newEmail.starred
 
     setEmails(modifiedEmails)
+    console.log(emails)
   }
   function toggleRead(target) {
     let modifiedEmails = [...emails]
@@ -30,23 +32,22 @@ function App() {
 
     setEmails(modifiedEmails)
     setInboxCount(emails.filter(e => e.read === false).length)
-
-    console.log(emails)
   }
 
-  function emptyFunc() {
-    console.log("what")
-  }
-
-  function emailFilter(email){
+  function emailFilterRead(email){
     if(hideRead) return email.read == false
-
+    return true
+  }
+  function emailFilterStarred(email){
+    if(currentTab == "starred") return email.starred == true
     return true
   }
 
   function getEmailItems(){
     return (
-      emails.filter(e => emailFilter(e) == true)
+      emails
+        .filter(e => emailFilterRead(e))
+        .filter(e => emailFilterStarred(e))
         .map((email, index) => emailItem(email, index))
     )
   }
@@ -82,14 +83,14 @@ function App() {
         <ul className="inbox-list">
           <li
             className="item active"
-            onClick={() => emptyFunc()}
+            onClick={() => setCurrentTab("inbox")}
           >
             <span className="label">Inbox</span>
             <span className="count">{inboxCount}</span>
           </li>
           <li
             className="item"
-            onClick={() => emptyFunc()}
+            onClick={() => setCurrentTab("starred")}
           >
             <span className="label">Starred</span>
             <span className="count">{getStarredEmailCount(initialEmails)}</span>
