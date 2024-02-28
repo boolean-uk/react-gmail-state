@@ -8,15 +8,29 @@ import './styles/App.css'
 function App() {
   // Use initialEmails for state
   const [emails, setEmails] = useState(initialEmails)
+  const [hideRead, setHideRead] = useState(false)
 
-  const filteredEmails = emails
+  const getUnreadEmails = (emails) => {
+    return emails.filter((email) => !email.read)
+  }
 
+  let filteredEmails = emails
+  if (hideRead) filteredEmails = getUnreadEmails(emails)
+  
+  /**
+   * Count the amount of unread emails by checking the length of a filtered list
+   * @returns The amount of unread emails
+   */
   const countUnread = () => {
     return emails.filter((email) =>
       !email.read
     ).length
   }
 
+  /**
+   * Count the amount of starred emails by checking the length of a filtered list
+   * @returns The amount of starred emails
+   */
   const countStarred = () => {
     return emails.filter((email) =>
       email.starred
@@ -67,7 +81,7 @@ function App() {
               id="hide-read"
               type="checkbox"
               checked={false}
-              // onChange={() => {}}
+              onChange={() => {setHideRead(!hideRead)}}
             />
           </li>
         </ul>
