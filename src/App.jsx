@@ -44,16 +44,16 @@ function App() {
       <Header />
       <nav className="left-menu">
         <ul className="inbox-list">
-          <li className="email active" onClick={() => {}}>
+          <li className="item active" onClick={() => {}}>
             <span className="label">Inbox</span>
             <span className="unread">{unreadEmail}</span>
           </li>
-          <li className="email" onClick={() => {}}>
+          <li className="item" onClick={() => {}}>
             <span className="label">Starred</span>
             <span className="starred">{starredEmail}</span>
           </li>
 
-          <li className="email toggle">
+          <li className="item toggle">
             <label htmlFor="hide-read">Hide read</label>
             <input
               id="hide-read"
