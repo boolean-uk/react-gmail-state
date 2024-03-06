@@ -11,46 +11,41 @@ function App() {
     // Descripton: Recieve email and set set it's read status to the opposite
     // Input: email
     // create new array to store emails
-    const changedEmails = emails.map(function (email) {
-      // iterate through emails state to find input-email
-      if (email === thisEmail) {
-        // update its read status
-        return {
-          ...emails,
-          sender: email.sender,
-          title: email.title,
-          starred: email.starred,
-          read: !email.read,
-        };
-      }
-      return email;
-    });
-    // put new array into setEmails
+    const changedEmails = emails.map((email) =>
+      // update its read status
+      email.id === thisEmail.id ? { ...email, read: !email.read } : email
+    );
+    // put into setEmails
     setEmails(changedEmails);
   };
-
   const toggleStar = (thisEmail) => {
     // Descripton: Recieve email and set set it's starred status to the oposite
     // Input: email
     // create new array to store emails
-    const changedEmails = emails.map(function (email) {
-      // iterate through emails state to find input-email
-      if (email === thisEmail) {
-        // update its starred status
-        return {
-          ...emails,
-          sender: email.sender,
-          title: email.title,
-          starred: !email.starred,
-          read: email.read,
-        };
-      }
-      return email;
-    });
-
-    // put new array into setEmails
+    const changedEmails = emails.map((email) =>
+      // update its starred status
+      email.id === thisEmail.id ? { ...email, starred: !email.starred } : email
+    );
+    // put into setEmails
     setEmails(changedEmails);
   };
+
+  const hideReadEmails = (event) => {
+    // Description: Update Emails to only contain those that have their read state as false
+    // Input:
+    // check if ceckbox is checked
+    if (event.target.checked === false) {
+      // create new array to store unread emails
+      const changedEmails = emails.map(function (email) {
+        if (email.read === false) {
+          return { ...emails, email };
+        }
+        return email;
+      });
+      setEmails(changedEmails);
+    }
+  };
+
   return (
     <div className="app">
       <Header />
@@ -76,8 +71,10 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-              // onChange={() => {}}
+              checked={emails.read}
+              onChange={(event) => {
+                hideReadEmails(event);
+              }}
             />
           </li>
         </ul>
